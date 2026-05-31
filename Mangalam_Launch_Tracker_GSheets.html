@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mangalam Landmarks — Project Launch Tracker · FY 2026–27</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#EEF4F9;color:#0D1B2A;font-size:13px}
+button,input,select{font-family:inherit}
+
+/* HEADER */
+.hdr{background:linear-gradient(135deg,#0F2850,#1B5E9B);padding:14px 28px 0;position:sticky;top:0;z-index:200;box-shadow:0 3px 20px rgba(0,0,0,.3)}
+.hdr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px}
+.logo{width:42px;height:42px;background:#C9A227;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#0F2850;flex-shrink:0}
+.hdr h1{font-size:16px;font-weight:900;color:#fff}
+.hdr-sub{font-size:10px;color:rgba(255,255,255,.45);margin-top:2px}
+.hdr-btns{display:flex;gap:8px;flex-wrap:wrap}
+.btn{padding:7px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:none;transition:all .2s}
+.btn-gold{background:#C9A227;color:#0F2850}
+.btn-outline{background:transparent;color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.3)}
+.btn-outline:hover{background:rgba(255,255,255,.1);color:#fff}
+.btn-red{background:#C0392B;color:#fff}
+.tabs{display:flex;gap:2px}
+.tab{padding:8px 16px;background:transparent;color:rgba(255,255,255,.55);border:none;border-radius:7px 7px 0 0;font-size:12px;font-weight:700;cursor:pointer}
+.tab.active{background:#C9A227;color:#0F2850}
+
+/* BODY */
+.body{max-width:1440px;margin:0 auto;padding:22px 20px}
+
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:20px}
+.kpi{background:#fff;border-radius:12px;padding:14px 16px;box-shadow:0 2px 10px rgba(15,40,80,.07);position:relative;overflow:hidden}
+.kpi-lbl{font-size:9px;font-weight:700;color:#6B7280;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.kpi-val{font-size:22px;font-weight:900;color:#0F2850;line-height:1}
+.kpi-sub{font-size:10px;color:#6B7280;margin-top:4px}
+.kpi-icon{position:absolute;top:10px;right:12px;font-size:22px;opacity:.12}
+
+/* STATUS BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:12px;font-size:10px;font-weight:700;white-space:nowrap}
+.badge-green{background:#DCFCE7;color:#166534}
+.badge-amber{background:#FEF3C7;color:#92400E}
+.badge-red{background:#FEE2E2;color:#7F1D1D}
+.badge-blue{background:#DBEAFE;color:#1E40AF}
+.badge-gray{background:#F3F4F6;color:#374151}
+.badge-purple{background:#EDE9FE;color:#4C1D95}
+
+/* SECTION TITLE */
+.sec-title{font-size:15px;font-weight:800;color:#0F2850;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #D6EAF8;display:flex;justify-content:space-between;align-items:center}
+
+/* PROJECT CARDS GRID */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:16px;margin-bottom:24px}
+
+/* PROJECT CARD */
+.proj-card{background:#fff;border-radius:14px;box-shadow:0 2px 14px rgba(15,40,80,.08);overflow:hidden;border-top:4px solid #ccc}
+.proj-card.launch{border-top-color:#0F2850}
+.proj-card.new-launch{border-top-color:#1B5E9B}
+.proj-card.handover{border-top-color:#0D5C54}
+.proj-card.ongoing{border-top-color:#D97706}
+.pc-head{padding:13px 16px 10px;display:flex;justify-content:space-between;align-items:flex-start}
+.pc-name{font-size:14px;font-weight:900;color:#0F2850}
+.pc-type{font-size:10px;color:#6B7280;margin-top:2px}
+.pc-body{padding:0 16px 14px}
+
+/* MILESTONE TABLE INSIDE CARD */
+.ms-table{width:100%;border-collapse:collapse}
+.ms-table th{font-size:9px;font-weight:700;color:#6B7280;letter-spacing:.8px;text-transform:uppercase;padding:5px 8px;background:#F8FAFC;text-align:left;border-bottom:1px solid #E5EDF5}
+.ms-table td{padding:5px 8px;border-bottom:1px solid #F0F4F9;font-size:11px;vertical-align:middle}
+.ms-table tr:last-child td{border-bottom:none}
+.ms-table tr:hover td{background:#F8FAFC}
+
+/* DATE INPUT */
+.date-input{border:1px solid #D1D5DB;border-radius:6px;padding:3px 7px;font-size:11px;color:#0F2850;background:#fff;cursor:pointer;width:112px}
+.date-input:focus{outline:none;border-color:#1B5E9B;box-shadow:0 0 0 2px rgba(27,94,155,.15)}
+.date-input.changed{border-color:#C9A227;background:#FFFBEA}
+
+/* DAYS CHIP */
+.days-chip{font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;white-space:nowrap}
+.days-over{background:#FEE2E2;color:#7F1D1D}
+.days-soon{background:#FEF3C7;color:#92400E}
+.days-ok{background:#DCFCE7;color:#166534}
+.days-done{background:#F3F4F6;color:#6B7280;text-decoration:line-through}
+.days-na{color:#9CA3AF;font-size:10px}
+
+/* PROGRESS BAR */
+.prog-wrap{margin:10px 0 6px}
+.prog-lbl{display:flex;justify-content:space-between;font-size:10px;color:#6B7280;margin-bottom:3px}
+.prog-bar{height:6px;border-radius:3px;background:#E5EDF5;overflow:hidden}
+.prog-fill{height:100%;border-radius:3px;transition:width .5s}
+
+/* TIMELINE VIEW */
+.timeline-wrap{background:#fff;border-radius:14px;box-shadow:0 2px 14px rgba(15,40,80,.08);padding:20px;margin-bottom:24px;overflow-x:auto}
+.tl-row{display:flex;gap:0;align-items:center;margin-bottom:8px;min-width:900px}
+.tl-proj{width:140px;flex-shrink:0;font-size:11px;font-weight:700;color:#0F2850;padding-right:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl-track{flex:1;height:28px;position:relative;background:#F0F4F9;border-radius:4px}
+.tl-bar{position:absolute;height:100%;border-radius:4px;display:flex;align-items:center;padding:0 6px;font-size:9px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden}
+.tl-milestone{position:absolute;width:10px;height:10px;border-radius:50%;top:9px;transform:translateX(-50%);border:2px solid #fff;z-index:2;cursor:pointer}
+.tl-tip{position:absolute;background:#0F2850;color:#fff;padding:4px 8px;border-radius:6px;font-size:10px;white-space:nowrap;z-index:10;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);pointer-events:none;display:none}
+.tl-milestone:hover .tl-tip{display:block}
+
+/* SUMMARY TABLE */
+.sum-table{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 14px rgba(15,40,80,.08)}
+.sum-table th{padding:10px 14px;background:#0F2850;color:#C9A227;font-size:11px;font-weight:700;text-align:left}
+.sum-table td{padding:9px 14px;border-bottom:1px solid #F0F4F9;font-size:12px;vertical-align:middle}
+.sum-table tr:hover td{background:#F8FAFC}
+.sum-table tr:last-child td{border-bottom:none}
+
+/* ALERT PANEL */
+.alerts{background:#fff;border-radius:14px;box-shadow:0 2px 14px rgba(15,40,80,.08);padding:16px 20px;margin-bottom:20px}
+.alert-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid #F0F4F9;align-items:flex-start}
+.alert-item:last-child{border-bottom:none}
+.alert-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.alert-body{}
+.alert-title{font-size:12px;font-weight:700;color:#0F2850}
+.alert-sub{font-size:11px;color:#6B7280;margin-top:1px}
+
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:flex;align-items:center;justify-content:center;display:none}
+.modal-bg.open{display:flex}
+.modal{background:#fff;border-radius:16px;padding:24px;width:500px;max-width:95vw;box-shadow:0 10px 40px rgba(0,0,0,.2)}
+.modal h2{font-size:16px;font-weight:900;color:#0F2850;margin-bottom:16px}
+.form-row{margin-bottom:12px}
+.form-label{font-size:11px;font-weight:700;color:#374151;margin-bottom:4px;display:block}
+.form-input{width:100%;border:1px solid #D1D5DB;border-radius:8px;padding:7px 11px;font-size:12px;color:#0F2850}
+.form-input:focus{outline:none;border-color:#1B5E9B}
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+
+/* NOTES */
+.notes-box{background:#FFFBEA;border:1px solid #FDE68A;border-radius:8px;padding:8px 10px;margin-top:8px;font-size:11px;color:#78350F}
+
+/* LEGEND */
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:#374151}
+.leg-dot{width:10px;height:10px;border-radius:50%}
+
+footer{background:#0F2850;text-align:center;padding:12px;font-size:10px;color:rgba(255,255,255,.3);margin-top:20px}
+
+@media(max-width:768px){
+  .kpi-strip{grid-template-columns:repeat(3,1fr)}
+  .proj-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+
+<script>
+// ─── GOOGLE SHEETS CONFIG ────────────────────────────────────────────
+// STEP 1: After setting up the Google Sheet, publish it:
+//   File > Share > Publish to web > Sheet: "Milestone Tracker" > Format: CSV > Publish
+//   Copy the URL and paste it below.
+// STEP 2: Replace the placeholder URL with your actual published CSV URL.
+// NOTE: The URL looks like:
+//   https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/pub?gid=0&single=true&output=csv
+
+const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSwRPx9dxDh-4Foh0fFgjeS7o2e6ZDGkisMVgNnaC4q_nlpTRvqlulKOZrkKQD2id9EMyjn4Cqo95s2/pub?gid=1576499634&single=true&output=csv'; // ← PASTE YOUR PUBLISHED CSV URL HERE
+
+// ─── CSV PARSER ───────────────────────────────────────────────────────
+// Parses the Milestone Tracker CSV exported from Google Sheets.
+// Column layout: col 1 = row#, col 2 = milestone name,
+//   then groups of 3 per project: [Planned Date, Actual Date, Status]
+// Row 1 = title, Row 2 = project headers, Row 3 = sub-headers (Planned/Actual/Status)
+// Rows 4..22 = milestones, Row 23 = Notes row
+
+function parseSheetCSV(csvText) {
+  const lines = csvText.split('\n').map(l => parseCSVLine(l));
+  if (lines.length < 5) return null;
+
+  // Row 2 (index 1): project names — every 3rd col starting at col 3
+  const projectRow = lines[1]; // 0-indexed
+  const noteRow = lines.find((l, i) => i >= 3 && l[1] && l[1].toString().toUpperCase().includes('NOTE'));
+
+  // Build project list from headers
+  const parsedProjects = [];
+  const startCol = 2; // 0-indexed: col index 2 = 3rd column
+  let col = startCol;
+  while (col < projectRow.length) {
+    const rawName = (projectRow[col] || '').trim();
+    if (!rawName) { col += 3; continue; }
+    // Parse "Name [TYPE]" format
+    const typeMatch = rawName.match(/\[(.+?)\]/);
+    const type = typeMatch ? typeMatch[1].trim() : 'NEW LAUNCH';
+    const name = rawName.replace(/\[.+?\]/, '').replace(/\n/g, ' ').trim();
+    parsedProjects.push({ col, name, type });
+    col += 3;
+  }
+
+  if (parsedProjects.length === 0) return null;
+
+  // Fetch metadata from Projects sheet via named range — or fall back to defaults
+  // Map project col index → project info
+  const result = parsedProjects.map((pp, idx) => {
+    const milestones = {};
+    // Rows 4..22 = milestone data (0-indexed: rows 3..21)
+    for (let ri = 3; ri < lines.length; ri++) {
+      const row = lines[ri];
+      const msName = (row[1] || '').trim();
+      if (!msName || msName.toUpperCase().includes('NOTE') || msName.toUpperCase().includes('STATUS LEGEND')) break;
+      const planned = (row[pp.col] || '').trim();
+      const actual  = (row[pp.col + 1] || '').trim();
+      const status  = (row[pp.col + 2] || 'PENDING').trim();
+      milestones[msName] = {
+        date: parseDateDDMMYYYY(planned),
+        actualDate: parseDateDDMMYYYY(actual),
+        status: normalizeStatus(status)
+      };
+    }
+    // notes row
+    let notes = '';
+    if (noteRow) notes = (noteRow[pp.col] || '').trim();
+
+    return {
+      id: idx + 1,
+      name: pp.name,
+      type: pp.type,
+      ufType: getUfType(pp.type),
+      color: getTypeColor(pp.type),
+      location: 'Pune',
+      totalUnits: 0,   // will be enriched if Projects sheet data is available
+      area: '—',
+      notes,
+      milestones
+    };
+  });
+
+  return result;
+}
+
+// Parse individual CSV line respecting quoted fields
+function parseCSVLine(line) {
+  const result = [];
+  let cur = '', inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (c === '"') {
+      if (inQ && line[i+1] === '"') { cur += '"'; i++; }
+      else inQ = !inQ;
+    } else if (c === ',' && !inQ) {
+      result.push(cur); cur = '';
+    } else {
+      cur += c;
+    }
+  }
+  result.push(cur);
+  return result;
+}
+
+// Convert DD/MM/YYYY or DD/MMM/YYYY to YYYY-MM-DD
+function parseDateDDMMYYYY(s) {
+  if (!s || s === '—' || s === '') return '';
+  // Try DD/MMM/YYYY (e.g. 01/Jun/2026)
+  const mmmMatch = s.match(/^(\d{1,2})\/([A-Za-z]+)\/(\d{4})$/);
+  if (mmmMatch) {
+    const months = {jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+    const m = months[mmmMatch[2].toLowerCase().slice(0,3)];
+    if (m) return `${mmmMatch[3]}-${String(m).padStart(2,'0')}-${mmmMatch[1].padStart(2,'0')}`;
+  }
+  // Try DD/MM/YYYY
+  const dmyMatch = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (dmyMatch) return `${dmyMatch[3]}-${dmyMatch[2].padStart(2,'0')}-${dmyMatch[1].padStart(2,'0')}`;
+  // Try YYYY-MM-DD passthrough
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+  return '';
+}
+
+function normalizeStatus(s) {
+  const map = {'DONE':'DONE','ON TRACK':'ON TRACK','WATCH':'WATCH','AT RISK':'AT RISK','PENDING':'PENDING'};
+  return map[s.toUpperCase()] || S.PENDING;
+}
+
+function getUfType(type) {
+  if (type === 'HANDOVER' || type === 'HANDOVER Q4') return 'handover';
+  if (type === 'NEW LAUNCH') return 'new-launch';
+  if (type === 'ONGOING') return 'ongoing';
+  return 'new-launch';
+}
+
+function getTypeColor(type) {
+  if (type === 'HANDOVER' || type === 'HANDOVER Q4') return '#0D5C54';
+  if (type === 'NEW LAUNCH') return '#1B5E9B';
+  if (type === 'ONGOING') return '#D97706';
+  return '#1B5E9B';
+}
+
+// ─── LOAD FROM GOOGLE SHEETS ─────────────────────────────────────────
+// Fetches the published Google Sheet CSV using multiple proxy strategies.
+// Works when hosted on any https:// page (GitHub Pages, Netlify, etc.)
+//
+// HOW TO GET YOUR URL:
+//   In Google Sheets → File → Share → Publish to web
+//   → Sheet: "Milestone Tracker" → Format: CSV → Publish
+//   → Copy the URL and paste it below in SHEET_CSV_URL
+
+let sheetLoadState = 'idle';
+
+async function fetchCSV(rawUrl) {
+  const enc = encodeURIComponent(rawUrl);
+
+  // Strategy 1: Google's own CORS-friendly export URL
+  // Convert publish URL to export URL — works without any proxy
+  try {
+    const match = rawUrl.match(/\/d\/(.*?)\//);
+    const gidMatch = rawUrl.match(/gid=(\d+)/);
+    if (match) {
+      const sheetId = match[1];
+      const gid = gidMatch ? gidMatch[1] : '0';
+      const exportUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
+      const r = await fetch(exportUrl, { signal: AbortSignal.timeout(12000), redirect: 'follow' });
+      if (r.ok) {
+        const text = await r.text();
+        if (text && text.length > 50 && !text.startsWith('<!')) {
+          console.log('✅ Loaded via Google export URL');
+          return text;
+        }
+      }
+    }
+  } catch(e) { console.warn('Google export failed:', e.message); }
+
+  // Strategy 2: allorigins.win — wraps response in JSON .contents
+  try {
+    const r = await fetch(`https://api.allorigins.win/get?url=${enc}`, { signal: AbortSignal.timeout(12000) });
+    if (r.ok) {
+      const j = await r.json();
+      if (j && j.contents && j.contents.length > 50 && !j.contents.startsWith('<!')) {
+        console.log('✅ Loaded via allorigins');
+        return j.contents;
+      }
+    }
+  } catch(e) { console.warn('allorigins failed:', e.message); }
+
+  // Strategy 3: corsproxy.io
+  try {
+    const r = await fetch(`https://corsproxy.io/?${enc}`, { signal: AbortSignal.timeout(12000) });
+    if (r.ok) {
+      const text = await r.text();
+      if (text && text.length > 50 && !text.startsWith('<!')) {
+        console.log('✅ Loaded via corsproxy.io');
+        return text;
+      }
+    }
+  } catch(e) { console.warn('corsproxy.io failed:', e.message); }
+
+  // Strategy 4: thingproxy.freeboard.io
+  try {
+    const r = await fetch(`https://thingproxy.freeboard.io/fetch/${rawUrl}`, { signal: AbortSignal.timeout(12000) });
+    if (r.ok) {
+      const text = await r.text();
+      if (text && text.length > 50 && !text.startsWith('<!')) {
+        console.log('✅ Loaded via thingproxy');
+        return text;
+      }
+    }
+  } catch(e) { console.warn('thingproxy failed:', e.message); }
+
+  throw new Error('All fetch strategies failed. See console for details.');
+}
+
+async function loadFromSheet() {
+  if (!SHEET_CSV_URL) {
+    sheetLoadState = 'no-url';
+    renderSheetBanner();
+    return;
+  }
+  sheetLoadState = 'loading';
+  renderSheetBanner();
+  try {
+    const text = await fetchCSV(SHEET_CSV_URL);
+    const parsed = parseSheetCSV(text);
+    if (!parsed || parsed.length === 0) throw new Error('CSV parsed but no projects found — check sheet structure');
+    parsed.forEach(pp => {
+      const init = INIT_PROJECTS.find(ip => ip.name.toLowerCase() === pp.name.toLowerCase());
+      if (init) {
+        pp.totalUnits = pp.totalUnits || init.totalUnits;
+        pp.area = (pp.area && pp.area !== '—') ? pp.area : init.area;
+        if (!pp.notes) pp.notes = init.notes;
+      }
+    });
+    projects = parsed;
+    sheetLoadState = 'loaded';
+    lastSaved = 'Google Sheet · ' + new Date().toLocaleString('en-IN');
+    saveData();
+    render();
+  } catch(e) {
+    console.warn('Sheet load failed:', e.message);
+    sheetLoadState = 'error';
+    renderSheetBanner();
+  }
+}
+
+function renderSheetBanner() {
+  const banner = document.getElementById('sheet-banner');
+  if (!banner) return;
+  if (sheetLoadState === 'loading') {
+    banner.innerHTML = '<span style="color:#1B5E9B">⏳ Loading from Google Sheet…</span>';
+    banner.style.display = 'block';
+  } else if (sheetLoadState === 'loaded') {
+    banner.innerHTML = '<span style="color:#166534">✅ Data loaded from Google Sheet</span> <button onclick="loadFromSheet()" style="margin-left:10px;padding:2px 10px;font-size:11px;background:#DBEAFE;color:#1E40AF;border:none;border-radius:6px;cursor:pointer;font-weight:700">🔄 Refresh</button>';
+    banner.style.display = 'block';
+  } else if (sheetLoadState === 'error') {
+    banner.innerHTML = '<span style="color:#7F1D1D">⚠ Could not load from Google Sheet — showing cached / default data.</span>'
+      + '<span style="font-size:11px;color:#78350F;margin-left:6px"> Check: (1) URL is correct &amp; pasted in SHEET_CSV_URL, (2) Sheet is published to web as CSV, (3) Sheet sharing = "Anyone with link can view".</span>'
+      + '<button onclick="loadFromSheet()" style="margin-left:10px;padding:2px 10px;font-size:11px;background:#FEE2E2;color:#7F1D1D;border:none;border-radius:6px;cursor:pointer;font-weight:700">🔄 Retry</button>';
+    banner.style.display = 'block';
+  } else if (sheetLoadState === 'no-url') {
+    banner.innerHTML = `<span style="color:#92400E">📋 Google Sheet not connected yet.</span>
+      <span style="font-size:11px;color:#78350F"> Paste your published CSV URL into <code>SHEET_CSV_URL</code> in the script. <a href="https://support.google.com/docs/answer/183965" target="_blank" style="color:#1B5E9B">How to publish?</a></span>`;
+    banner.style.display = 'block';
+  }
+}
+
+
+// ─── DATA ────────────────────────────────────────────────────────────
+const MILESTONES = [
+  "Land Finalised",
+  "Feasibility Approved (SSS)",
+  "Architect Appointed",
+  "Concept Design Approved",
+  "Layout Approval Filed",
+  "Environment Clearance (EC)",
+  "Sanction / IOD Received",
+  "RERA Registration",
+  "Construction Finance Arranged",
+  "GFC Issued (SSS Signed)",
+  "Excavation / Work Start",
+  "Show Flat / Sample Flat Ready",
+  "Soft Launch / Broker Preview",
+  "Official Launch Date",
+  "Structure Complete",
+  "Finishing Work Start",
+  "OC / CC Applied",
+  "OC / CC Received",
+  "Possession Start",
+];
+
+const KEY_MS = ["EC", "Sanction / IOD Received", "RERA Registration", "Official Launch Date", "OC / CC Received", "Possession Start"];
+
+// Status options
+const S = { DONE:"DONE", OT:"ON TRACK", WATCH:"WATCH", RISK:"AT RISK", PENDING:"PENDING" };
+
+function dStr(y,m,d){ return `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`; }
+function today(){ return new Date().toISOString().split('T')[0]; }
+function daysFrom(dateStr){
+  if(!dateStr) return null;
+  const diff = Math.round((new Date(dateStr) - new Date()) / 86400000);
+  return diff;
+}
+function fmt(dateStr){
+  if(!dateStr) return "—";
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+}
+
+// Initial project data
+const INIT_PROJECTS = [
+  {
+    id:1, name:"Life Park", type:"HANDOVER", ufType:"handover", color:"#0D5C54",
+    location:"Pune", totalUnits:1010, area:"15.0 L Sqft",
+    notes:"Flagship project. Q1 possession. Largest ever. CXO leads ceremony.",
+    milestones:{
+      "Land Finalised":           { date:dStr(2020,6,1),  status:S.DONE },
+      "Feasibility Approved (SSS)":{ date:dStr(2020,8,1), status:S.DONE },
+      "Architect Appointed":      { date:dStr(2020,9,1),  status:S.DONE },
+      "Concept Design Approved":  { date:dStr(2021,1,1),  status:S.DONE },
+      "Layout Approval Filed":    { date:dStr(2021,3,1),  status:S.DONE },
+      "Environment Clearance (EC)":{ date:dStr(2021,7,1), status:S.DONE },
+      "Sanction / IOD Received":  { date:dStr(2022,1,1),  status:S.DONE },
+      "RERA Registration":        { date:dStr(2022,3,1),  status:S.DONE },
+      "Construction Finance Arranged":{ date:dStr(2022,4,1), status:S.DONE },
+      "GFC Issued (SSS Signed)":  { date:dStr(2022,5,1),  status:S.DONE },
+      "Excavation / Work Start":  { date:dStr(2022,6,1),  status:S.DONE },
+      "Show Flat / Sample Flat Ready":{ date:dStr(2022,9,1), status:S.DONE },
+      "Soft Launch / Broker Preview":{ date:dStr(2022,10,1), status:S.DONE },
+      "Official Launch Date":     { date:dStr(2022,11,1), status:S.DONE },
+      "Structure Complete":       { date:dStr(2024,6,1),  status:S.DONE },
+      "Finishing Work Start":     { date:dStr(2024,7,1),  status:S.DONE },
+      "OC / CC Applied":          { date:dStr(2025,12,1), status:S.DONE },
+      "OC / CC Received":         { date:dStr(2026,2,1),  status:S.DONE },
+      "Possession Start":         { date:dStr(2026,4,15), status:S.OT },
+    }
+  },
+  {
+    id:2, name:"Melizma", type:"HANDOVER", ufType:"handover", color:"#0D5C54",
+    location:"Pune", totalUnits:364, area:"5.5 L Sqft",
+    notes:"Q1 possession. Referral trigger for next launches.",
+    milestones:{
+      "Land Finalised":           { date:dStr(2021,3,1),  status:S.DONE },
+      "Feasibility Approved (SSS)":{ date:dStr(2021,5,1), status:S.DONE },
+      "Architect Appointed":      { date:dStr(2021,6,1),  status:S.DONE },
+      "Concept Design Approved":  { date:dStr(2021,9,1),  status:S.DONE },
+      "Layout Approval Filed":    { date:dStr(2021,11,1), status:S.DONE },
+      "Environment Clearance (EC)":{ date:dStr(2022,4,1), status:S.DONE },
+      "Sanction / IOD Received":  { date:dStr(2022,8,1),  status:S.DONE },
+      "RERA Registration":        { date:dStr(2022,10,1), status:S.DONE },
+      "Construction Finance Arranged":{ date:dStr(2022,11,1), status:S.DONE },
+      "GFC Issued (SSS Signed)":  { date:dStr(2022,12,1), status:S.DONE },
+      "Excavation / Work Start":  { date:dStr(2023,1,1),  status:S.DONE },
+      "Show Flat / Sample Flat Ready":{ date:dStr(2023,4,1), status:S.DONE },
+      "Soft Launch / Broker Preview":{ date:dStr(2023,5,1), status:S.DONE },
+      "Official Launch Date":     { date:dStr(2023,6,1),  status:S.DONE },
+      "Structure Complete":       { date:dStr(2025,3,1),  status:S.DONE },
+      "Finishing Work Start":     { date:dStr(2025,4,1),  status:S.DONE },
+      "OC / CC Applied":          { date:dStr(2026,2,1),  status:S.DONE },
+      "OC / CC Received":         { date:dStr(2026,4,1),  status:S.DONE },
+      "Possession Start":         { date:dStr(2026,6,15), status:S.OT },
+    }
+  },
+  {
+    id:3, name:"Niyoshi Park", type:"HANDOVER Q4", ufType:"handover", color:"#0D5C54",
+    location:"Pune", totalUnits:94, area:"1.5 L Sqft",
+    notes:"Jan 2027 possession. High visibility boutique project.",
+    milestones:{
+      "Land Finalised":           { date:dStr(2022,1,1),  status:S.DONE },
+      "Feasibility Approved (SSS)":{ date:dStr(2022,3,1), status:S.DONE },
+      "Architect Appointed":      { date:dStr(2022,4,1),  status:S.DONE },
+      "Concept Design Approved":  { date:dStr(2022,7,1),  status:S.DONE },
+      "Layout Approval Filed":    { date:dStr(2022,9,1),  status:S.DONE },
+      "Environment Clearance (EC)":{ date:dStr(2023,2,1), status:S.DONE },
+      "Sanction / IOD Received":  { date:dStr(2023,6,1),  status:S.DONE },
+      "RERA Registration":        { date:dStr(2023,8,1),  status:S.DONE },
+      "Construction Finance Arranged":{ date:dStr(2023,9,1), status:S.DONE },
+      "GFC Issued (SSS Signed)":  { date:dStr(2023,10,1), status:S.DONE },
+      "Excavation / Work Start":  { date:dStr(2023,11,1), status:S.DONE },
+      "Show Flat / Sample Flat Ready":{ date:dStr(2024,3,1), status:S.DONE },
+      "Soft Launch / Broker Preview":{ date:dStr(2024,4,1), status:S.DONE },
+      "Official Launch Date":     { date:dStr(2024,5,1),  status:S.DONE },
+      "Structure Complete":       { date:dStr(2025,10,1), status:S.DONE },
+      "Finishing Work Start":     { date:dStr(2025,11,1), status:S.OT },
+      "OC / CC Applied":          { date:dStr(2026,9,1),  status:S.OT },
+      "OC / CC Received":         { date:dStr(2026,12,1), status:S.WATCH },
+      "Possession Start":         { date:dStr(2027,1,15), status:S.OT },
+    }
+  },
+  {
+    id:4, name:"Marvel", type:"HANDOVER Q4", ufType:"handover", color:"#0D5C54",
+    location:"Pune", totalUnits:550, area:"8.0 L Sqft",
+    notes:"Feb 2027. Quality benchmark for future launches.",
+    milestones:{
+      "Land Finalised":           { date:dStr(2022,4,1),  status:S.DONE },
+      "Feasibility Approved (SSS)":{ date:dStr(2022,6,1), status:S.DONE },
+      "Architect Appointed":      { date:dStr(2022,7,1),  status:S.DONE },
+      "Concept Design Approved":  { date:dStr(2022,11,1), status:S.DONE },
+      "Layout Approval Filed":    { date:dStr(2023,1,1),  status:S.DONE },
+      "Environment Clearance (EC)":{ date:dStr(2023,6,1), status:S.DONE },
+      "Sanction / IOD Received":  { date:dStr(2023,10,1), status:S.DONE },
+      "RERA Registration":        { date:dStr(2024,1,1),  status:S.DONE },
+      "Construction Finance Arranged":{ date:dStr(2024,2,1), status:S.DONE },
+      "GFC Issued (SSS Signed)":  { date:dStr(2024,3,1),  status:S.DONE },
+      "Excavation / Work Start":  { date:dStr(2024,4,1),  status:S.DONE },
+      "Show Flat / Sample Flat Ready":{ date:dStr(2024,8,1), status:S.DONE },
+      "Soft Launch / Broker Preview":{ date:dStr(2024,9,1), status:S.DONE },
+      "Official Launch Date":     { date:dStr(2024,10,1), status:S.DONE },
+      "Structure Complete":       { date:dStr(2026,3,1),  status:S.DONE },
+      "Finishing Work Start":     { date:dStr(2026,4,1),  status:S.OT },
+      "OC / CC Applied":          { date:dStr(2026,11,1), status:S.WATCH },
+      "OC / CC Received":         { date:dStr(2027,1,1),  status:S.WATCH },
+      "Possession Start":         { date:dStr(2027,2,15), status:S.OT },
+    }
+  },
+  {
+    id:5, name:"Miraya", type:"HANDOVER Q4", ufType:"handover", color:"#0D5C54",
+    location:"Pune", totalUnits:512, area:"7.0 L Sqft",
+    notes:"Mar 2027. Final collection milestone at possession.",
+    milestones:{
+      "Land Finalised":           { date:dStr(2022,6,1),  status:S.DONE },
+      "Feasibility Approved (SSS)":{ date:dStr(2022,8,1), status:S.DONE },
+      "Architect Appointed":      { date:dStr(2022,9,1),  status:S.DONE },
+      "Concept Design Approved":  { date:dStr(2023,1,1),  status:S.DONE },
+      "Layout Approval Filed":    { date:dStr(2023,3,1),  status:S.DONE },
+      "Environment Clearance (EC)":{ date:dStr(2023,8,1), status:S.DONE },
+      "Sanction / IOD Received":  { date:dStr(2024,1,1),  status:S.DONE },
+      "RERA Registration":        { date:dStr(2024,3,1),  status:S.DONE },
+      "Construction Finance Arranged":{ date:dStr(2024,4,1), status:S.DONE },
+      "GFC Issued (SSS Signed)":  { date:dStr(2024,5,1),  status:S.DONE },
+      "Excavation / Work Start":  { date:dStr(2024,6,1),  status:S.DONE },
+      "Show Flat / Sample Flat Ready":{ date:dStr(2024,10,1), status:S.DONE },
+      "Soft Launch / Broker Preview":{ date:dStr(2024,11,1), status:S.DONE },
+      "Official Launch Date":     { date:dStr(2024,12,1), status:S.DONE },
+      "Structure Complete":       { date:dStr(2026,6,1),  status:S.OT },
+      "Finishing Work Start":     { date:dStr(2026,7,1),  status:S.OT },
+      "OC / CC Applied":          { date:dStr(2026,12,1), status:S.WATCH },
+      "OC / CC Received":         { date:dStr(2027,2,1),  status:S.RISK },
+      "Possession Start":         { date:dStr(2027,3,15), status:S.WATCH },
+    }
+  },
+  {
+    id:6, name:"Shyni Gold", type:"HANDOVER Q4", ufType:"handover", color:"#0D5C54",
+    location:"Pune", totalUnits:222, area:"4.5 L Sqft",
+    notes:"Mar 2027. Boutique NPS flagship.",
+    milestones:{
+      "Land Finalised":           { date:dStr(2022,8,1),  status:S.DONE },
+      "Feasibility Approved (SSS)":{ date:dStr(2022,10,1), status:S.DONE },
+      "Architect Appointed":      { date:dStr(2022,11,1), status:S.DONE },
+      "Concept Design Approved":  { date:dStr(2023,2,1),  status:S.DONE },
+      "Layout Approval Filed":    { date:dStr(2023,4,1),  status:S.DONE },
+      "Environment Clearance (EC)":{ date:dStr(2023,9,1), status:S.DONE },
+      "Sanction / IOD Received":  { date:dStr(2024,2,1),  status:S.DONE },
+      "RERA Registration":        { date:dStr(2024,4,1),  status:S.DONE },
+      "Construction Finance Arranged":{ date:dStr(2024,5,1), status:S.DONE },
+      "GFC Issued (SSS Signed)":  { date:dStr(2024,6,1),  status:S.DONE },
+      "Excavation / Work Start":  { date:dStr(2024,7,1),  status:S.DONE },
+      "Show Flat / Sample Flat Ready":{ date:dStr(2024,11,1), status:S.DONE },
+      "Soft Launch / Broker Preview":{ date:dStr(2024,12,1), status:S.DONE },
+      "Official Launch Date":     { date:dStr(2025,1,1),  status:S.DONE },
+      "Structure Complete":       { date:dStr(2026,8,1),  status:S.OT },
+      "Finishing Work Start":     { date:dStr(2026,9,1),  status:S.OT },
+      "OC / CC Applied":          { date:dStr(2027,1,1),  status:S.WATCH },
+      "OC / CC Received":         { date:dStr(2027,2,1),  status:S.WATCH },
+      "Possession Start":         { date:dStr(2027,3,30), status:S.WATCH },
+    }
+  },
+  {
+    id:7, name:"New Launch 1", type:"NEW LAUNCH", ufType:"new-launch", color:"#1B5E9B",
+    location:"Pune", totalUnits:300, area:"5.0 L Sqft",
+    notes:"Q1 FY27 launch. All approvals must be in hand before launch.",
+    milestones:{
+      "Land Finalised":           { date:dStr(2025,10,1), status:S.DONE },
+      "Feasibility Approved (SSS)":{ date:dStr(2025,12,1), status:S.DONE },
+      "Architect Appointed":      { date:dStr(2026,1,1),  status:S.DONE },
+      "Concept Design Approved":  { date:dStr(2026,3,1),  status:S.OT },
+      "Layout Approval Filed":    { date:dStr(2026,3,15), status:S.OT },
+      "Environment Clearance (EC)":{ date:dStr(2026,6,1), status:S.WATCH },
+      "Sanction / IOD Received":  { date:dStr(2026,7,1),  status:S.WATCH },
+      "RERA Registration":        { date:dStr(2026,8,1),  status:S.PENDING },
+      "Construction Finance Arranged":{ date:dStr(2026,7,1), status:S.PENDING },
+      "GFC Issued (SSS Signed)":  { date:dStr(2026,8,1),  status:S.PENDING },
+      "Excavation / Work Start":  { date:dStr(2026,9,1),  status:S.PENDING },
+      "Show Flat / Sample Flat Ready":{ date:dStr(2026,10,1), status:S.PENDING },
+      "Soft Launch / Broker Preview":{ date:dStr(2026,10,15), status:S.PENDING },
+      "Official Launch Date":     { date:dStr(2026,11,1), status:S.PENDING },
+      "Structure Complete":       { date:"",               status:S.PENDING },
+      "Finishing Work Start":     { date:"",               status:S.PENDING },
+      "OC / CC Applied":          { date:"",               status:S.PENDING },
+      "OC / CC Received":         { date:"",               status:S.PENDING },
+      "Possession Start":         { date:"",               status:S.PENDING },
+    }
+  },
+  {
+    id:8, name:"New Launch 2", type:"NEW LAUNCH", ufType:"new-launch", color:"#1B5E9B",
+    location:"Pune", totalUnits:420, area:"7.2 L Sqft",
+    notes:"Q2 FY27 target. EC and Sanction in progress.",
+    milestones:{
+      "Land Finalised":           { date:dStr(2025,12,1), status:S.DONE },
+      "Feasibility Approved (SSS)":{ date:dStr(2026,1,1), status:S.DONE },
+      "Architect Appointed":      { date:dStr(2026,2,1),  status:S.OT },
+      "Concept Design Approved":  { date:dStr(2026,4,1),  status:S.OT },
+      "Layout Approval Filed":    { date:dStr(2026,5,1),  status:S.WATCH },
+      "Environment Clearance (EC)":{ date:dStr(2026,8,1), status:S.RISK },
+      "Sanction / IOD Received":  { date:dStr(2026,9,1),  status:S.PENDING },
+      "RERA Registration":        { date:dStr(2026,10,1), status:S.PENDING },
+      "Construction Finance Arranged":{ date:dStr(2026,9,1), status:S.PENDING },
+      "GFC Issued (SSS Signed)":  { date:dStr(2026,10,1), status:S.PENDING },
+      "Excavation / Work Start":  { date:dStr(2026,11,1), status:S.PENDING },
+      "Show Flat / Sample Flat Ready":{ date:dStr(2027,1,1), status:S.PENDING },
+      "Soft Launch / Broker Preview":{ date:dStr(2027,1,15), status:S.PENDING },
+      "Official Launch Date":     { date:dStr(2027,2,1),  status:S.PENDING },
+      "Structure Complete":       { date:"",               status:S.PENDING },
+      "Finishing Work Start":     { date:"",               status:S.PENDING },
+      "OC / CC Applied":          { date:"",               status:S.PENDING },
+      "OC / CC Received":         { date:"",               status:S.PENDING },
+      "Possession Start":         { date:"",               status:S.PENDING },
+    }
+  },
+  {
+    id:9, name:"New Launch 3", type:"NEW LAUNCH", ufType:"new-launch", color:"#1B5E9B",
+    location:"Pune", totalUnits:280, area:"4.5 L Sqft",
+    notes:"Q2 FY27. Land acquired. Architect briefed.",
+    milestones:{
+      "Land Finalised":           { date:dStr(2026,2,1),  status:S.DONE },
+      "Feasibility Approved (SSS)":{ date:dStr(2026,3,1), status:S.OT },
+      "Architect Appointed":      { date:dStr(2026,4,1),  status:S.OT },
+      "Concept Design Approved":  { date:dStr(2026,6,1),  status:S.WATCH },
+      "Layout Approval Filed":    { date:dStr(2026,7,1),  status:S.PENDING },
+      "Environment Clearance (EC)":{ date:dStr(2026,10,1), status:S.PENDING },
+      "Sanction / IOD Received":  { date:dStr(2026,11,1), status:S.PENDING },
+      "RERA Registration":        { date:dStr(2026,12,1), status:S.PENDING },
+      "Construction Finance Arranged":{ date:dStr(2026,11,1), status:S.PENDING },
+      "GFC Issued (SSS Signed)":  { date:dStr(2026,12,1), status:S.PENDING },
+      "Excavation / Work Start":  { date:dStr(2027,1,1),  status:S.PENDING },
+      "Show Flat / Sample Flat Ready":{ date:dStr(2027,3,1), status:S.PENDING },
+      "Soft Launch / Broker Preview":{ date:dStr(2027,3,15), status:S.PENDING },
+      "Official Launch Date":     { date:dStr(2027,4,1),  status:S.PENDING },
+      "Structure Complete":       { date:"",               status:S.PENDING },
+      "Finishing Work Start":     { date:"",               status:S.PENDING },
+      "OC / CC Applied":          { date:"",               status:S.PENDING },
+      "OC / CC Received":         { date:"",               status:S.PENDING },
+      "Possession Start":         { date:"",               status:S.PENDING },
+    }
+  },
+  {
+    id:10, name:"New Launch 4", type:"NEW LAUNCH", ufType:"new-launch", color:"#1B5E9B",
+    location:"Pune", totalUnits:350, area:"6.0 L Sqft",
+    notes:"Q3 FY27 target. Land recently signed.",
+    milestones:{
+      "Land Finalised":           { date:dStr(2026,3,1),  status:S.OT },
+      "Feasibility Approved (SSS)":{ date:dStr(2026,4,1), status:S.OT },
+      "Architect Appointed":      { date:dStr(2026,5,1),  status:S.PENDING },
+      "Concept Design Approved":  { date:dStr(2026,8,1),  status:S.PENDING },
+      "Layout Approval Filed":    { date:dStr(2026,9,1),  status:S.PENDING },
+      "Environment Clearance (EC)":{ date:dStr(2027,1,1), status:S.PENDING },
+      "Sanction / IOD Received":  { date:dStr(2027,2,1),  status:S.PENDING },
+      "RERA Registration":        { date:dStr(2027,3,1),  status:S.PENDING },
+      "Construction Finance Arranged":{ date:dStr(2027,2,1), status:S.PENDING },
+      "GFC Issued (SSS Signed)":  { date:dStr(2027,3,1),  status:S.PENDING },
+      "Excavation / Work Start":  { date:dStr(2027,4,1),  status:S.PENDING },
+      "Show Flat / Sample Flat Ready":{ date:dStr(2027,6,1), status:S.PENDING },
+      "Soft Launch / Broker Preview":{ date:dStr(2027,7,1), status:S.PENDING },
+      "Official Launch Date":     { date:dStr(2027,8,1),  status:S.PENDING },
+      "Structure Complete":       { date:"",               status:S.PENDING },
+      "Finishing Work Start":     { date:"",               status:S.PENDING },
+      "OC / CC Applied":          { date:"",               status:S.PENDING },
+      "OC / CC Received":         { date:"",               status:S.PENDING },
+      "Possession Start":         { date:"",               status:S.PENDING },
+    }
+  },
+  {
+    id:11, name:"New Launch 5", type:"NEW LAUNCH", ufType:"new-launch", color:"#1B5E9B",
+    location:"Pune", totalUnits:400, area:"6.8 L Sqft",
+    notes:"Q3 FY27 target. Land pipeline active.",
+    milestones:{
+      "Land Finalised":           { date:dStr(2026,4,1),  status:S.OT },
+      "Feasibility Approved (SSS)":{ date:dStr(2026,5,1), status:S.PENDING },
+      "Architect Appointed":      { date:dStr(2026,6,1),  status:S.PENDING },
+      "Concept Design Approved":  { date:dStr(2026,9,1),  status:S.PENDING },
+      "Layout Approval Filed":    { date:dStr(2026,10,1), status:S.PENDING },
+      "Environment Clearance (EC)":{ date:dStr(2027,2,1), status:S.PENDING },
+      "Sanction / IOD Received":  { date:dStr(2027,3,1),  status:S.PENDING },
+      "RERA Registration":        { date:dStr(2027,4,1),  status:S.PENDING },
+      "Construction Finance Arranged":{ date:dStr(2027,3,1), status:S.PENDING },
+      "GFC Issued (SSS Signed)":  { date:dStr(2027,4,1),  status:S.PENDING },
+      "Excavation / Work Start":  { date:dStr(2027,5,1),  status:S.PENDING },
+      "Show Flat / Sample Flat Ready":{ date:dStr(2027,7,1), status:S.PENDING },
+      "Soft Launch / Broker Preview":{ date:dStr(2027,8,1), status:S.PENDING },
+      "Official Launch Date":     { date:dStr(2027,9,1),  status:S.PENDING },
+      "Structure Complete":       { date:"",               status:S.PENDING },
+      "Finishing Work Start":     { date:"",               status:S.PENDING },
+      "OC / CC Applied":          { date:"",               status:S.PENDING },
+      "OC / CC Received":         { date:"",               status:S.PENDING },
+      "Possession Start":         { date:"",               status:S.PENDING },
+    }
+  },
+];
+
+// ─── STATE ────────────────────────────────────────────────────────────
+let projects = JSON.parse(JSON.stringify(INIT_PROJECTS));
+let activeTab = 'dashboard';
+let expandedProj = null;
+let editModal = null;
+let filterType = 'ALL';
+let lastSaved = new Date().toLocaleString('en-IN');
+
+// Load from localStorage if available
+function loadData(){
+  try{
+    const saved = localStorage.getItem('mangalam_launch_tracker');
+    if(saved){ projects = JSON.parse(saved); lastSaved = localStorage.getItem('mlt_saved') || lastSaved; }
+  }catch(e){}
+}
+
+// On page load, try to refresh from Sheet (async, non-blocking)
+async function initData(){
+  loadData(); // load from cache first (instant)
+  render();   // show immediately
+  await loadFromSheet(); // then update from sheet (async)
+}
+
+function saveData(){
+  try{
+    localStorage.setItem('mangalam_launch_tracker', JSON.stringify(projects));
+    lastSaved = new Date().toLocaleString('en-IN');
+    localStorage.setItem('mlt_saved', lastSaved);
+  }catch(e){}
+}
+
+loadData();
+
+// ─── COMPUTED ─────────────────────────────────────────────────────────
+function getProgress(proj){
+  const total = MILESTONES.length;
+  const done = MILESTONES.filter(m => proj.milestones[m]?.status === S.DONE).length;
+  return Math.round((done/total)*100);
+}
+
+function getOverallStatus(proj){
+  const ms = proj.milestones;
+  const hasCritical = MILESTONES.some(m => ms[m]?.status === S.RISK);
+  const hasWatch = MILESTONES.some(m => ms[m]?.status === S.WATCH);
+  const allDone = getProgress(proj) === 100;
+  if(allDone) return S.DONE;
+  if(hasCritical) return S.RISK;
+  if(hasWatch) return S.WATCH;
+  return S.OT;
+}
+
+function badgeForStatus(s){
+  if(s===S.DONE)    return '<span class="badge badge-green">✓ DONE</span>';
+  if(s===S.OT)      return '<span class="badge badge-blue">ON TRACK</span>';
+  if(s===S.WATCH)   return '<span class="badge badge-amber">⚠ WATCH</span>';
+  if(s===S.RISK)    return '<span class="badge badge-red">🔴 AT RISK</span>';
+  return '<span class="badge badge-gray">PENDING</span>';
+}
+
+function getAlerts(){
+  const alerts = [];
+  projects.forEach(p => {
+    MILESTONES.forEach(m => {
+      const ms = p.milestones[m];
+      if(!ms || !ms.date || ms.status === S.DONE) return;
+      const days = daysFrom(ms.date);
+      if(ms.status === S.RISK){
+        alerts.push({type:'red', proj:p.name, ms:m, date:ms.date, days});
+      } else if(days !== null && days <= 30 && days >= 0 && ms.status !== S.DONE){
+        alerts.push({type:'amber', proj:p.name, ms:m, date:ms.date, days});
+      }
+    });
+  });
+  alerts.sort((a,b) => (a.days||999) - (b.days||999));
+  return alerts.slice(0,10);
+}
+
+// ─── RENDER ───────────────────────────────────────────────────────────
+function render(){
+  document.getElementById('app').innerHTML = buildApp();
+  attachEvents();
+  // Re-show sheet banner after re-render
+  renderSheetBanner();
+}
+
+function buildApp(){
+  return `
+  ${buildHeader()}
+  <div id="sheet-banner" style="display:none;background:#F0F9FF;border-bottom:1px solid #BAE6FD;padding:7px 24px;font-size:12px;font-weight:600;position:sticky;top:80px;z-index:190"></div>
+  <div class="body">
+    ${activeTab==='dashboard' ? buildDashboard() : ''}
+    ${activeTab==='tracker' ? buildTracker() : ''}
+    ${activeTab==='timeline' ? buildTimeline() : ''}
+    ${activeTab==='summary' ? buildSummary() : ''}
+  </div>
+  <footer>Mangalam Landmarks LLP  ·  Project Launch Tracker  ·  FY 2026–27  ·  Last updated: ${lastSaved}  ·  SSS — Subhash Sakore (CEO)  ·  CONFIDENTIAL</footer>
+  ${buildModal()}
+  `;
+}
+
+function buildHeader(){
+  const tabs = [
+    {id:'dashboard',label:'📊 Dashboard'},
+    {id:'tracker',label:'📅 Milestone Tracker'},
+    {id:'timeline',label:'📆 Timeline'},
+    {id:'summary',label:'📋 Summary Table'},
+  ];
+  return `
+  <div class="hdr">
+    <div class="hdr-top">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="logo">M</div>
+        <div>
+          <h1>Mangalam Landmarks — Project Launch &amp; Milestone Tracker</h1>
+          <div class="hdr-sub">FY 2026–27 · Google Sheets powered · Click "Open Sheet" to edit data · Updated monthly by SSS + RP</div>
+        </div>
+      </div>
+      <div class="hdr-btns">
+        <button class="btn btn-outline" onclick="openAddProjectInSheet()">+ Add Project</button>
+        <button class="btn btn-outline" onclick="openSheet()">📊 Open Sheet</button>
+        <button class="btn btn-gold" onclick="exportCSV()">⬇ Export CSV</button>
+      </div>
+    </div>
+    <div class="tabs">
+      ${tabs.map(t=>`<button class="tab${activeTab===t.id?' active':''}" onclick="setTab('${t.id}')">${t.label}</button>`).join('')}
+    </div>
+  </div>`;
+}
+
+function buildKPIs(){
+  const total = projects.length;
+  const handovers = projects.filter(p=>p.ufType==='handover').length;
+  const launches = projects.filter(p=>p.ufType==='new-launch').length;
+  const atRisk = projects.filter(p=>getOverallStatus(p)===S.RISK).length;
+  const watching = projects.filter(p=>getOverallStatus(p)===S.WATCH).length;
+  const totalUnits = projects.reduce((s,p)=>s+p.totalUnits,0);
+  return `
+  <div class="kpi-strip">
+    <div class="kpi" style="border-left:4px solid #0F2850">
+      <div class="kpi-lbl">Total Projects</div>
+      <div class="kpi-val">${total}</div>
+      <div class="kpi-sub">${handovers} handovers · ${launches} new launches</div>
+      <div class="kpi-icon">🏗</div>
+    </div>
+    <div class="kpi" style="border-left:4px solid #0D5C54">
+      <div class="kpi-lbl">Total Units</div>
+      <div class="kpi-val">${totalUnits.toLocaleString('en-IN')}</div>
+      <div class="kpi-sub">Across all active projects</div>
+      <div class="kpi-icon">🏠</div>
+    </div>
+    <div class="kpi" style="border-left:4px solid #1B5E9B">
+      <div class="kpi-lbl">Possession Due FY27</div>
+      <div class="kpi-val">2,752</div>
+      <div class="kpi-sub">Life Park + Melizma Q1 · 4 projects Q4</div>
+      <div class="kpi-icon">🔑</div>
+    </div>
+    <div class="kpi" style="border-left:4px solid #16A34A">
+      <div class="kpi-lbl">On Track</div>
+      <div class="kpi-val">${projects.filter(p=>[S.OT,S.DONE].includes(getOverallStatus(p))).length}</div>
+      <div class="kpi-sub">Projects on schedule</div>
+      <div class="kpi-icon">✅</div>
+    </div>
+    <div class="kpi" style="border-left:4px solid #D97706">
+      <div class="kpi-lbl">Watch / Risk</div>
+      <div class="kpi-val">${watching + atRisk}</div>
+      <div class="kpi-sub">${watching} watch · ${atRisk} at risk</div>
+      <div class="kpi-icon">⚠️</div>
+    </div>
+    <div class="kpi" style="border-left:4px solid #C9A227">
+      <div class="kpi-lbl">Next Launch</div>
+      <div class="kpi-val" style="font-size:14px">New Launch 1</div>
+      <div class="kpi-sub">Nov 2026 target</div>
+      <div class="kpi-icon">🚀</div>
+    </div>
+  </div>`;
+}
+
+function buildDashboard(){
+  const alerts = getAlerts();
+  return `
+  ${buildKPIs()}
+  ${alerts.length ? `
+  <div class="alerts" style="margin-bottom:20px">
+    <div class="sec-title" style="margin-bottom:12px;font-size:13px">
+      🚨 CEO Alerts — Milestones Needing Attention
+      <span style="font-size:11px;font-weight:400;color:#6B7280">${alerts.length} items</span>
+    </div>
+    ${alerts.map(a=>`
+    <div class="alert-item">
+      <div class="alert-icon">${a.type==='red'?'🔴':'🟡'}</div>
+      <div class="alert-body">
+        <div class="alert-title">${a.proj} — ${a.ms}</div>
+        <div class="alert-sub">
+          Planned: ${fmt(a.date)}
+          ${a.days!==null ? (a.days<0 ? `<span style="color:#C0392B;font-weight:700"> · ${Math.abs(a.days)} days overdue</span>` : `<span style="color:#D97706;font-weight:700"> · in ${a.days} days</span>`) : ''}
+        </div>
+      </div>
+    </div>`).join('')}
+  </div>` : ''}
+  
+  <div class="sec-title">
+    📋 All Projects — Click any card to edit milestones
+    <div style="display:flex;gap:6px">
+      ${['ALL','HANDOVER','NEW LAUNCH'].map(f=>`
+      <button class="btn ${filterType===f?'btn-gold':'btn-outline'}" 
+        style="padding:4px 12px;font-size:11px;${filterType!==f?'background:#fff;color:#374151;border:1px solid #D1D5DB;':''}" 
+        onclick="setFilter('${f}')">${f}</button>`).join('')}
+    </div>
+  </div>
+  <div class="proj-grid">
+    ${projects
+      .filter(p => filterType==='ALL' || p.type.includes(filterType))
+      .map(p => buildProjectCard(p)).join('')}
+  </div>`;
+}
+
+function buildProjectCard(p){
+  const prog = getProgress(p);
+  const status = getOverallStatus(p);
+  const keyDates = [
+    {label:'EC Date',       ms:'Environment Clearance (EC)'},
+    {label:'Sanction/IOD',  ms:'Sanction / IOD Received'},
+    {label:'RERA',          ms:'RERA Registration'},
+    {label:'Launch Date',   ms:'Official Launch Date'},
+    {label:'OC/CC',         ms:'OC / CC Received'},
+    {label:'Possession',    ms:'Possession Start'},
+  ];
+  const progColor = prog===100?'#0D5C54':status===S.RISK?'#C0392B':status===S.WATCH?'#D97706':'#1B5E9B';
+  return `
+  <div class="proj-card ${p.ufType}" onclick="openProject(${p.id})">
+    <div class="pc-head">
+      <div>
+        <div class="pc-name">${p.name}</div>
+        <div class="pc-type">${p.type} · ${p.totalUnits} units · ${p.area}</div>
+      </div>
+      <div style="text-align:right">
+        ${badgeForStatus(status)}
+        <div style="font-size:10px;color:#6B7280;margin-top:4px">${p.location}</div>
+      </div>
+    </div>
+    <div class="pc-body">
+      <div class="prog-wrap">
+        <div class="prog-lbl">
+          <span style="font-weight:700;color:#374151">Progress</span>
+          <span style="color:${progColor};font-weight:700">${prog}%</span>
+        </div>
+        <div class="prog-bar"><div class="prog-fill" style="width:${prog}%;background:${progColor}"></div></div>
+      </div>
+      <table class="ms-table">
+        <thead><tr><th>KEY MILESTONE</th><th>DATE</th><th>STATUS</th><th>DAYS</th></tr></thead>
+        <tbody>
+          ${keyDates.map(kd=>{
+            const ms = p.milestones[kd.ms];
+            const d = ms?.date;
+            const st = ms?.status || S.PENDING;
+            const days = d ? daysFrom(d) : null;
+            const daysHtml = st===S.DONE ? '<span class="days-chip days-done">Done</span>'
+              : days===null ? '<span class="days-na">—</span>'
+              : days<0 ? `<span class="days-chip days-over">${Math.abs(days)}d over</span>`
+              : days<=30 ? `<span class="days-chip days-soon">${days}d</span>`
+              : `<span class="days-chip days-ok">${days}d</span>`;
+            return `<tr>
+              <td style="font-weight:600;color:#374151">${kd.label}</td>
+              <td style="color:#1B5E9B;font-weight:600">${fmt(d)}</td>
+              <td>${badgeForStatus(st)}</td>
+              <td>${daysHtml}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+      ${p.notes ? `<div class="notes-box">📝 ${p.notes}</div>` : ''}
+    </div>
+  </div>`;
+}
+
+function buildTracker(){
+  const filtered = projects.filter(p => filterType==='ALL' || p.type.includes(filterType));
+  return `
+  ${buildKPIs()}
+  <div class="sec-title">
+    📅 Full Milestone Tracker — All dates are editable
+    <div style="display:flex;gap:6px">
+      ${['ALL','HANDOVER','NEW LAUNCH'].map(f=>`
+      <button class="btn ${filterType===f?'btn-gold':'btn-outline'}"
+        style="padding:4px 12px;font-size:11px;${filterType!==f?'background:#fff;color:#374151;border:1px solid #D1D5DB;':''}"
+        onclick="setFilter('${f}')">${f}</button>`).join('')}
+    </div>
+  </div>
+  ${filtered.map(p => buildFullMilestoneTable(p)).join('')}`;
+}
+
+function buildFullMilestoneTable(p){
+  const prog = getProgress(p);
+  const status = getOverallStatus(p);
+  const progColor = prog===100?'#0D5C54':status===S.RISK?'#C0392B':status===S.WATCH?'#D97706':'#1B5E9B';
+  const isKey = ms => KEY_MS.some(k => ms.includes(k) || k.includes(ms));
+  return `
+  <div style="background:#fff;border-radius:14px;box-shadow:0 2px 14px rgba(15,40,80,.08);margin-bottom:16px;overflow:hidden;border-top:4px solid ${p.color}">
+    <div style="padding:12px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #F0F4F9">
+      <div>
+        <span style="font-size:15px;font-weight:900;color:#0F2850">${p.name}</span>
+        <span style="font-size:11px;color:#6B7280;margin-left:10px">${p.type} · ${p.totalUnits} units · ${p.area}</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="width:80px;height:6px;border-radius:3px;background:#E5EDF5;overflow:hidden">
+            <div style="height:100%;width:${prog}%;background:${progColor};border-radius:3px"></div>
+          </div>
+          <span style="font-size:11px;font-weight:700;color:${progColor}">${prog}%</span>
+        </div>
+        ${badgeForStatus(status)}
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+    <table class="ms-table" style="min-width:700px">
+      <thead>
+        <tr>
+          <th style="width:220px">MILESTONE</th>
+          <th>TYPE</th>
+          <th>PLANNED DATE</th>
+          <th>ACTUAL DATE</th>
+          <th>STATUS</th>
+          <th>DAYS</th>
+          <th>NOTES</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${MILESTONES.map((ms,idx) => {
+          const m = p.milestones[ms] || {date:'',status:S.PENDING};
+          const days = m.date ? daysFrom(m.date) : null;
+          const daysHtml = m.status===S.DONE ? '<span class="days-chip days-done">Done</span>'
+            : days===null ? '<span class="days-na">—</span>'
+            : days<0 ? `<span class="days-chip days-over">${Math.abs(days)}d over</span>`
+            : days<=30 ? `<span class="days-chip days-soon">${days}d</span>`
+            : `<span class="days-chip days-ok">${days}d</span>`;
+          const bg = isKey(ms) ? 'background:#FFFBEA;' : idx%2===0?'':'background:#FAFCFF;';
+          const keyBadge = isKey(ms) ? '<span class="badge badge-purple" style="font-size:9px;margin-left:5px">KEY</span>' : '';
+          return `<tr style="${bg}">
+            <td style="font-weight:${isKey(ms)?'700':'500'};color:#0F2850">
+              ${ms}${keyBadge}
+            </td>
+            <td style="font-size:10px;color:#6B7280">${isKey(ms)?'Critical':'Standard'}</td>
+            <td>
+              <input type="date" class="date-input" value="${m.date||''}"
+                onchange="updateDate(${p.id},'${ms.replace(/'/g,"\\'")}',this.value)"
+                ${m.status===S.DONE?'style="opacity:.6"':''}/>
+            </td>
+            <td>
+              <input type="date" class="date-input" value="${m.actualDate||''}"
+                onchange="updateActual(${p.id},'${ms.replace(/'/g,"\\'")}',this.value)"
+                placeholder="Actual"/>
+            </td>
+            <td>
+              <select style="border:1px solid #D1D5DB;border-radius:6px;padding:3px 7px;font-size:11px;color:#0F2850;background:#fff;cursor:pointer"
+                onchange="updateStatus(${p.id},'${ms.replace(/'/g,"\\'")}',this.value)">
+                ${[S.PENDING,S.OT,S.WATCH,S.RISK,S.DONE].map(st=>
+                  `<option value="${st}" ${m.status===st?'selected':''}>${st}</option>`
+                ).join('')}
+              </select>
+            </td>
+            <td>${daysHtml}</td>
+            <td>
+              <input type="text" style="border:1px solid #E5EDF5;border-radius:6px;padding:3px 8px;font-size:11px;width:120px;color:#374151"
+                placeholder="Add note..."
+                value="${m.note||''}"
+                onchange="updateNote(${p.id},'${ms.replace(/'/g,"\\'")}',this.value)"/>
+            </td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+    </div>
+  </div>`;
+}
+
+function buildTimeline(){
+  const START = new Date('2025-01-01');
+  const END   = new Date('2028-01-01');
+  const totalDays = (END - START) / 86400000;
+
+  function pct(dateStr){
+    if(!dateStr) return null;
+    return Math.max(0, Math.min(100, ((new Date(dateStr) - START) / 86400000 / totalDays) * 100));
+  }
+
+  const months = [];
+  let d = new Date(START);
+  while(d < END){
+    months.push({label: d.toLocaleDateString('en-IN',{month:'short',year:'2-digit'}), pct: pct(d.toISOString().split('T')[0])});
+    d = new Date(d.getFullYear(), d.getMonth()+1, 1);
+  }
+
+  const todayPct = pct(today());
+
+  return `
+  ${buildKPIs()}
+  <div class="timeline-wrap">
+    <div class="sec-title" style="margin-bottom:16px">
+      📆 Project Timeline — 2025 to 2028
+      <span style="font-size:11px;font-weight:400;color:#6B7280">Hover over milestones for details</span>
+    </div>
+    
+    <div class="legend" style="margin-bottom:12px">
+      <div class="leg"><div class="leg-dot" style="background:#0D5C54"></div>Handover / Possession</div>
+      <div class="leg"><div class="leg-dot" style="background:#1B5E9B"></div>New Launch</div>
+      <div class="leg"><div class="leg-dot" style="background:#C9A227"></div>EC Date</div>
+      <div class="leg"><div class="leg-dot" style="background:#C0392B"></div>Sanction/IOD</div>
+      <div class="leg"><div class="leg-dot" style="background:#4A1A8A"></div>RERA</div>
+      <div class="leg"><div class="leg-dot" style="background:#0F2850"></div>Launch Date</div>
+    </div>
+
+    <!-- Month ruler -->
+    <div style="display:flex;padding-left:150px;margin-bottom:4px;position:relative;min-width:900px">
+      ${months.filter((_,i)=>i%3===0).map(m=>`
+      <div style="position:absolute;left:calc(150px + ${m.pct}%);font-size:9px;color:#9CA3AF;transform:translateX(-50%)">${m.label}</div>
+      `).join('')}
+      <!-- Today line -->
+      <div style="position:absolute;left:calc(150px + ${todayPct}%);top:-2px;height:calc(100% + ${projects.length*38+16}px);border-left:2px dashed #C0392B;z-index:1;pointer-events:none">
+        <span style="position:absolute;top:-14px;left:2px;font-size:9px;color:#C0392B;font-weight:700;white-space:nowrap">TODAY</span>
+      </div>
+    </div>
+
+    <!-- Project rows -->
+    <div style="min-width:900px;margin-top:16px">
+    ${projects.map(p => {
+      const start = p.milestones['Land Finalised']?.date;
+      const end   = p.milestones['Possession Start']?.date;
+      const sp = pct(start), ep = pct(end);
+      const barW = (sp !== null && ep !== null) ? Math.max(1, ep - sp) : 0;
+      const keyMilestones = [
+        { ms:'Environment Clearance (EC)',  color:'#C9A227' },
+        { ms:'Sanction / IOD Received',     color:'#C0392B' },
+        { ms:'RERA Registration',           color:'#4A1A8A' },
+        { ms:'Official Launch Date',        color:'#0F2850' },
+        { ms:'Possession Start',            color:'#0D5C54' },
+      ];
+      return `
+      <div class="tl-row" style="margin-bottom:10px">
+        <div class="tl-proj">${p.name}<br/><span style="font-size:9px;color:#9CA3AF;font-weight:400">${p.type}</span></div>
+        <div class="tl-track">
+          ${sp!==null && ep!==null ? `
+          <div class="tl-bar" style="left:${sp}%;width:${barW}%;background:${p.color};opacity:.85">
+            <span>${p.name}</span>
+          </div>` : ''}
+          ${keyMilestones.map(km => {
+            const d = p.milestones[km.ms]?.date;
+            const kp = pct(d);
+            if(kp === null) return '';
+            return `
+            <div class="tl-milestone" style="left:${kp}%;background:${km.color}">
+              <div class="tl-tip">${km.ms}<br/>${fmt(d)}</div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>`;
+    }).join('')}
+    </div>
+  </div>`;
+}
+
+function buildSummary(){
+  const keyMs = [
+    'Environment Clearance (EC)',
+    'Sanction / IOD Received',
+    'RERA Registration',
+    'GFC Issued (SSS Signed)',
+    'Official Launch Date',
+    'OC / CC Received',
+    'Possession Start',
+  ];
+  return `
+  ${buildKPIs()}
+  <div class="sec-title">📋 Summary Table — Key Milestones All Projects</div>
+  <div style="overflow-x:auto;margin-bottom:20px">
+  <table class="sum-table">
+    <thead>
+      <tr>
+        <th style="min-width:130px">PROJECT</th>
+        <th>TYPE</th>
+        <th>UNITS</th>
+        <th>EC DATE</th>
+        <th>SANCTION / IOD</th>
+        <th>RERA</th>
+        <th>GFC</th>
+        <th>LAUNCH DATE</th>
+        <th>OC / CC</th>
+        <th>POSSESSION</th>
+        <th>STATUS</th>
+        <th>PROGRESS</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${projects.map((p,i) => {
+        const prog = getProgress(p);
+        const status = getOverallStatus(p);
+        const progColor = prog===100?'#0D5C54':status===S.RISK?'#C0392B':status===S.WATCH?'#D97706':'#1B5E9B';
+        const getMsDate = ms => {
+          const d = p.milestones[ms]?.date;
+          const st = p.milestones[ms]?.status;
+          if(!d) return '<span style="color:#9CA3AF">—</span>';
+          const days = daysFrom(d);
+          const col = st===S.DONE?'#6B7280':st===S.RISK?'#C0392B':st===S.WATCH?'#D97706':'#1B5E9B';
+          return `<span style="color:${col};font-weight:600;font-size:11px">${fmt(d)}</span>`;
+        };
+        return `<tr style="${i%2===0?'':'background:#F8FAFC'}">
+          <td style="font-weight:700;color:#0F2850">${p.name}</td>
+          <td>${badgeForStatus(status.includes('DONE')?S.DONE:status) /* intentional passthrough */}${badgeForStatus(p.ufType==='handover'?'x':'x')}</td>
+          <td style="text-align:center;font-weight:600">${p.totalUnits}</td>
+          <td>${getMsDate('Environment Clearance (EC)')}</td>
+          <td>${getMsDate('Sanction / IOD Received')}</td>
+          <td>${getMsDate('RERA Registration')}</td>
+          <td>${getMsDate('GFC Issued (SSS Signed)')}</td>
+          <td style="font-weight:700">${getMsDate('Official Launch Date')}</td>
+          <td>${getMsDate('OC / CC Received')}</td>
+          <td style="font-weight:700">${getMsDate('Possession Start')}</td>
+          <td>${badgeForStatus(status)}</td>
+          <td>
+            <div style="display:flex;align-items:center;gap:5px">
+              <div style="width:60px;height:5px;border-radius:3px;background:#E5EDF5;overflow:hidden">
+                <div style="height:100%;width:${prog}%;background:${progColor};border-radius:3px"></div>
+              </div>
+              <span style="font-size:10px;font-weight:700;color:${progColor}">${prog}%</span>
+            </div>
+          </td>
+        </tr>`;
+      }).join('')}
+    </tbody>
+  </table>
+  </div>`;
+}
+
+function buildModal(){
+  return `<div class="modal-bg" id="modalBg">
+    <div class="modal" id="modalContent"></div>
+  </div>`;
+}
+
+// ─── EVENTS ───────────────────────────────────────────────────────────
+function attachEvents(){
+  // click outside modal
+  document.getElementById('modalBg')?.addEventListener('click', e => {
+    if(e.target.id==='modalBg') closeModal();
+  });
+}
+
+function setTab(t){ activeTab=t; render(); }
+function setFilter(f){ filterType=f; render(); }
+
+function openProject(id){
+  const p = projects.find(x=>x.id===id);
+  if(!p) return;
+  const modal = document.getElementById('modalBg');
+  const content = document.getElementById('modalContent');
+  content.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <h2 style="margin:0">${p.name} — Edit Details</h2>
+      <button class="btn btn-outline" style="background:#F3F4F6;color:#374151;border:none" onclick="closeModal()">✕</button>
+    </div>
+    <div class="form-row-2">
+      <div class="form-row">
+        <label class="form-label">Project Name</label>
+        <input class="form-input" id="e_name" value="${p.name}"/>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Type</label>
+        <select class="form-input" id="e_type">
+          <option value="HANDOVER" ${p.type==='HANDOVER'?'selected':''}>HANDOVER</option>
+          <option value="HANDOVER Q4" ${p.type==='HANDOVER Q4'?'selected':''}>HANDOVER Q4</option>
+          <option value="NEW LAUNCH" ${p.type==='NEW LAUNCH'?'selected':''}>NEW LAUNCH</option>
+          <option value="ONGOING" ${p.type==='ONGOING'?'selected':''}>ONGOING</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row-2">
+      <div class="form-row">
+        <label class="form-label">Total Units</label>
+        <input class="form-input" id="e_units" type="number" value="${p.totalUnits}"/>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Area</label>
+        <input class="form-input" id="e_area" value="${p.area}"/>
+      </div>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Notes (CEO view)</label>
+      <input class="form-input" id="e_notes" value="${p.notes||''}"/>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-outline" style="background:#FEE2E2;color:#7F1D1D;border:none" onclick="deleteProject(${p.id})">Delete Project</button>
+      <button class="btn btn-outline" style="background:#F3F4F6;color:#374151;border:none" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-gold" onclick="saveProject(${p.id})">Save Changes</button>
+    </div>`;
+  modal.classList.add('open');
+}
+
+function saveProject(id){
+  const p = projects.find(x=>x.id===id);
+  if(!p) return;
+  p.name = document.getElementById('e_name').value;
+  p.type = document.getElementById('e_type').value;
+  p.ufType = p.type.toLowerCase().replace(' ','').replace('q4','');
+  p.totalUnits = parseInt(document.getElementById('e_units').value)||0;
+  p.area = document.getElementById('e_area').value;
+  p.notes = document.getElementById('e_notes').value;
+  closeModal();
+  saveData();
+  render();
+}
+
+function deleteProject(id){
+  if(!confirm('Delete this project?')) return;
+  projects = projects.filter(p=>p.id!==id);
+  closeModal();
+  saveData();
+  render();
+}
+
+function closeModal(){
+  document.getElementById('modalBg')?.classList.remove('open');
+}
+
+function addProject(){
+  const id = Math.max(...projects.map(p=>p.id))+1;
+  const newMs = {};
+  MILESTONES.forEach(m => { newMs[m] = {date:'',status:S.PENDING}; });
+  projects.push({
+    id, name:'New Project '+id, type:'NEW LAUNCH', ufType:'new-launch',
+    color:'#1B5E9B', location:'Pune', totalUnits:0, area:'0 L Sqft',
+    notes:'', milestones: newMs
+  });
+  saveData();
+  render();
+  openProject(id);
+}
+
+function updateDate(projId, ms, val){
+  const p = projects.find(x=>x.id===projId);
+  if(!p) return;
+  if(!p.milestones[ms]) p.milestones[ms]={date:'',status:S.PENDING};
+  p.milestones[ms].date = val;
+  saveData();
+  render();
+}
+
+function updateActual(projId, ms, val){
+  const p = projects.find(x=>x.id===projId);
+  if(!p) return;
+  if(!p.milestones[ms]) p.milestones[ms]={date:'',status:S.PENDING};
+  p.milestones[ms].actualDate = val;
+  saveData();
+}
+
+function updateStatus(projId, ms, val){
+  const p = projects.find(x=>x.id===projId);
+  if(!p) return;
+  if(!p.milestones[ms]) p.milestones[ms]={date:'',status:S.PENDING};
+  p.milestones[ms].status = val;
+  saveData();
+  render();
+}
+
+function updateNote(projId, ms, val){
+  const p = projects.find(x=>x.id===projId);
+  if(!p) return;
+  if(!p.milestones[ms]) p.milestones[ms]={date:'',status:S.PENDING};
+  p.milestones[ms].note = val;
+  saveData();
+}
+
+function openSheet(){
+  if(!SHEET_CSV_URL){
+    alert('No Google Sheet connected yet.\n\nPaste your published CSV URL into SHEET_CSV_URL in the script.');
+    return;
+  }
+  // Convert CSV publish URL to view URL
+  const viewUrl = SHEET_CSV_URL.replace('/pub?', '/edit?').split('output=csv')[0];
+  window.open(viewUrl || SHEET_CSV_URL, '_blank');
+}
+
+function openAddProjectInSheet(){
+  if(!SHEET_CSV_URL){
+    alert('No Google Sheet connected yet.\n\nStep 1: Run the Google Apps Script setup.\nStep 2: Paste your published CSV URL into SHEET_CSV_URL.\n\nFor now, a new blank project will be added locally.');
+    addProject();
+    return;
+  }
+  const confirmed = confirm('This will open your Google Sheet.\n\nIn the sheet, use the menu:\n🏗 Mangalam Tools > ➕ Add New Project\n\nAfter saving, click "Refresh" in the dashboard banner to reload data.');
+  if(confirmed) openSheet();
+}
+
+function exportCSV(){
+  const rows = [['Project','Type','Units','Milestone','Planned Date','Actual Date','Status','Days','Note']];
+  projects.forEach(p => {
+    MILESTONES.forEach(ms => {
+      const m = p.milestones[ms]||{};
+      const days = m.date ? daysFrom(m.date) : '';
+      rows.push([p.name, p.type, p.totalUnits, ms, m.date||'', m.actualDate||'', m.status||S.PENDING, days, m.note||'']);
+    });
+  });
+  const csv = rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'Mangalam_Launch_Tracker_'+new Date().toISOString().split('T')[0]+'.csv';
+  a.click();
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────
+initData();
+</script>
+</body>
+</html>

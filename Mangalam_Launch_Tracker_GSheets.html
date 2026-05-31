@@ -155,7 +155,7 @@ footer{background:#0F2850;text-align:center;padding:12px;font-size:10px;color:rg
 // NOTE: The URL looks like:
 //   https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/pub?gid=0&single=true&output=csv
 
-const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSwRPx9dxDh-4Foh0fFgjeS7o2e6ZDGkisMVgNnaC4q_nlpTRvqlulKOZrkKQD2id9EMyjn4Cqo95s2/pub?gid=1576499634&single=true&output=csv'; // ← PASTE YOUR PUBLISHED CSV URL HERE
+const SHEET_CSV_URL = ''; // ← PASTE YOUR PUBLISHED CSV URL HERE
 
 // ─── CSV PARSER ───────────────────────────────────────────────────────
 // Parses the Milestone Tracker CSV exported from Google Sheets.
@@ -165,61 +165,94 @@ const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSwRPx9dx
 // Rows 4..22 = milestones, Row 23 = Notes row
 
 function parseSheetCSV(csvText) {
-  const lines = csvText.split('\n').map(l => parseCSVLine(l));
+  // Normalise line endings and split into rows
+  const lines = csvText.replace(/\r\n/g, '\n').replace(/\r/g, '\n')
+    .split('\n').map(l => parseCSVLine(l));
   if (lines.length < 5) return null;
 
-  // Row 2 (index 1): project names — every 3rd col starting at col 3
-  const projectRow = lines[1]; // 0-indexed
-  const noteRow = lines.find((l, i) => i >= 3 && l[1] && l[1].toString().toUpperCase().includes('NOTE'));
+  // ── STEP 1: find project header columns ──────────────────────────────
+  // Row index 1 = project name headers (title row is index 0).
+  // Google Sheets exports merged cells with the VALUE in the FIRST column
+  // of the merge and EMPTY strings in the remaining merged columns.
+  // So "Life Park [HANDOVER]" appears at col 2, then cols 3 & 4 are "".
+  // "Melizma [HANDOVER]" appears at col 5, cols 6 & 7 are "", and so on.
+  //
+  // Strategy: scan every column in row 1. Any column that has a non-empty
+  // value AND is not "Planned Date" / "Actual Date" / "Status" is a project
+  // header. Record its column index.
 
-  // Build project list from headers
+  const headerRow = lines[1] || [];
+  const subRow    = lines[2] || []; // "Planned Date", "Actual Date", "Status"
+  const SUB_LABELS = ['planned', 'actual', 'status', 'planned date', 'actual date'];
+
   const parsedProjects = [];
-  const startCol = 2; // 0-indexed: col index 2 = 3rd column
-  let col = startCol;
-  while (col < projectRow.length) {
-    const rawName = (projectRow[col] || '').trim();
-    if (!rawName) { col += 3; continue; }
-    // Parse "Name [TYPE]" format
-    const typeMatch = rawName.match(/\[(.+?)\]/);
+  for (let c = 2; c < headerRow.length; c++) {
+    const cell = (headerRow[c] || '').trim();
+    if (!cell) continue;
+    // Skip sub-header labels that sometimes bleed into row 2 export
+    if (SUB_LABELS.includes(cell.toLowerCase())) continue;
+    // Skip legend or notes rows
+    if (cell.toUpperCase().includes('STATUS LEGEND') ||
+        cell.toUpperCase().includes('NOTE')) continue;
+
+    const typeMatch = cell.match(/\[(.+?)\]/);
     const type = typeMatch ? typeMatch[1].trim() : 'NEW LAUNCH';
-    const name = rawName.replace(/\[.+?\]/, '').replace(/\n/g, ' ').trim();
-    parsedProjects.push({ col, name, type });
-    col += 3;
+    const name = cell.replace(/\[.+?\]/, '').replace(/\n/g, ' ').trim();
+    if (!name) continue;
+    parsedProjects.push({ col: c, name, type });
   }
 
+  console.log('Projects found in CSV header:', parsedProjects.map(p => p.name));
   if (parsedProjects.length === 0) return null;
 
-  // Fetch metadata from Projects sheet via named range — or fall back to defaults
-  // Map project col index → project info
+  // ── STEP 2: find the milestone name rows ────────────────────────────
+  // Rows starting at index 3 (row 4 in sheet). Column index 1 = milestone name.
+  // Stop at the Notes row or end of data.
+  const msRows = [];
+  let noteRowIndex = -1;
+  for (let ri = 3; ri < lines.length; ri++) {
+    const label = (lines[ri][1] || '').trim();
+    if (!label) continue;
+    if (label.toUpperCase().includes('NOTE') ||
+        label.toUpperCase().includes('CEO REMARK') ||
+        label.toUpperCase().includes('STATUS LEGEND') ||
+        label.toUpperCase().includes('ADD NEW')) {
+      noteRowIndex = ri;
+      break;
+    }
+    msRows.push({ ri, label });
+  }
+
+  // ── STEP 3: for each project, read its 3 columns (planned/actual/status)
   const result = parsedProjects.map((pp, idx) => {
     const milestones = {};
-    // Rows 4..22 = milestone data (0-indexed: rows 3..21)
-    for (let ri = 3; ri < lines.length; ri++) {
+    msRows.forEach(({ ri, label }) => {
       const row = lines[ri];
-      const msName = (row[1] || '').trim();
-      if (!msName || msName.toUpperCase().includes('NOTE') || msName.toUpperCase().includes('STATUS LEGEND')) break;
-      const planned = (row[pp.col] || '').trim();
+      const planned = (row[pp.col]     || '').trim();
       const actual  = (row[pp.col + 1] || '').trim();
       const status  = (row[pp.col + 2] || 'PENDING').trim();
-      milestones[msName] = {
-        date: parseDateDDMMYYYY(planned),
+      milestones[label] = {
+        date:       parseDateDDMMYYYY(planned),
         actualDate: parseDateDDMMYYYY(actual),
-        status: normalizeStatus(status)
+        status:     normalizeStatus(status.toUpperCase())
       };
-    }
-    // notes row
+    });
+
+    // Notes row
     let notes = '';
-    if (noteRow) notes = (noteRow[pp.col] || '').trim();
+    if (noteRowIndex >= 0) {
+      notes = (lines[noteRowIndex][pp.col] || '').trim();
+    }
 
     return {
-      id: idx + 1,
-      name: pp.name,
-      type: pp.type,
-      ufType: getUfType(pp.type),
-      color: getTypeColor(pp.type),
-      location: 'Pune',
-      totalUnits: 0,   // will be enriched if Projects sheet data is available
-      area: '—',
+      id:         idx + 1,
+      name:       pp.name,
+      type:       pp.type,
+      ufType:     getUfType(pp.type),
+      color:      getTypeColor(pp.type),
+      location:   'Pune',
+      totalUnits: 0,
+      area:       '—',
       notes,
       milestones
     };

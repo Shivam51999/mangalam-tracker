@@ -223,6 +223,7 @@ footer{background:var(--white);border-top:1px solid var(--border);text-align:cen
     <button class="tab-btn" id="tab-tracker" onclick="setTab('tracker')">📅 Milestone Tracker</button>
     <button class="tab-btn" id="tab-timeline" onclick="setTab('timeline')">📆 Timeline</button>
     <button class="tab-btn" id="tab-summary" onclick="setTab('summary')">📋 Summary Table</button>
+    <button class="tab-btn" id="tab-newplan" onclick="setTab('newplan')">🚀 New Projects Plan</button>
   </div>
 
   <!-- Content -->
@@ -342,8 +343,424 @@ function renderBanner(){
 }
 
 // ══════════════════════════════════════════════════════
-//  DATA
+//  NEW PROJECTS PLAN DATA (PDF plan dated 03-05-2026)
 // ══════════════════════════════════════════════════════
+
+const NP_PROJECTS_INIT = [
+  {
+    id:'midas3', name:'Midas III',
+    sales:{plotSize:30,avgSaleable:1100,bsp:5300,unitCost:5830000,totalUnits:300,projectQuantum:1050,totalSaleable:1181250,saleAreaForSale:330000,unitsFY27:300,revFY27:175,projectRevenue:175},
+    activities:[
+      {dept:'Legal',task:'PA/DA',date:'2026-03-30',status:'DONE'},
+      {dept:'Liaisoning',task:'Mojani',date:'2026-03-30',status:'DONE'},
+      {dept:'D&D',task:'Concept Plan',date:'2026-03-30',status:'DONE'},
+      {dept:'D&D',task:'EC Submission',date:'',status:'NIL'},
+      {dept:'Liaisoning',task:'IOD',date:'',status:'NIL'},
+      {dept:'Liaisoning',task:'Basic Sanction',date:'2026-06-30',status:'PENDING'},
+      {dept:'RERA',task:'RERA',date:'2026-03-30',status:'DONE'},
+      {dept:'Engineering',task:'Sales Office Start',date:'2026-03-30',status:'DONE'},
+      {dept:'Engineering',task:'Sales Office End',date:'2026-03-30',status:'DONE'},
+      {dept:'D&D',task:'EC Receive',date:'2026-03-30',status:'DONE'},
+      {dept:'Sales',task:'Token (Phase 1)',date:'2026-05-01',status:'PENDING'},
+      {dept:'Sales',task:'Launch (Phase 1)',date:'2026-07-05',status:'PENDING'},
+      {dept:'Engineering',task:'Work Commencement (Phase 1)',date:'2026-05-01',status:'PENDING'},
+      {dept:'Engineering',task:'Plinth Completion (Phase 1)',date:'2026-06-30',status:'PENDING'},
+      {dept:'Sales',task:'Token (Phase 2)',date:'2026-07-01',status:'PENDING'},
+      {dept:'Sales',task:'Launch (Phase 2)',date:'2026-09-13',status:'PENDING'},
+      {dept:'Engineering',task:'Work Commencement (Phase 2)',date:'2026-07-01',status:'PENDING'},
+      {dept:'Engineering',task:'Plinth Completion (Phase 2)',date:'2026-09-13',status:'PENDING'},
+    ]
+  },
+  {
+    id:'myra', name:'Myra',
+    sales:{plotSize:90,avgSaleable:1100,bsp:4800,unitCost:5280000,totalUnits:125,projectQuantum:66,totalSaleable:137500,saleAreaForSale:110000,unitsFY27:100,revFY27:53,projectRevenue:53},
+    activities:[
+      {dept:'Legal',task:'PA/DA',date:'2026-03-30',status:'DONE'},
+      {dept:'Liaisoning',task:'Mojani',date:'2026-03-30',status:'DONE'},
+      {dept:'D&D',task:'Concept Plan',date:'2026-03-30',status:'DONE'},
+      {dept:'D&D',task:'EC Submission',date:'',status:'NIL'},
+      {dept:'Liaisoning',task:'IOD',date:'',status:'NIL'},
+      {dept:'Liaisoning',task:'Basic Sanction',date:'2026-04-30',status:'PENDING'},
+      {dept:'RERA',task:'RERA',date:'2026-05-30',status:'PENDING'},
+      {dept:'Engineering',task:'Sales Office Start',date:'2026-03-30',status:'DONE'},
+      {dept:'Engineering',task:'Sales Office End',date:'',status:'NIL'},
+      {dept:'D&D',task:'EC Receive',date:'',status:'NIL'},
+      {dept:'Sales',task:'Token (Phase 1)',date:'2026-08-01',status:'PENDING'},
+      {dept:'Sales',task:'Launch (Phase 1)',date:'2026-10-04',status:'PENDING'},
+      {dept:'Engineering',task:'Work Commencement (Phase 1)',date:'2026-08-01',status:'PENDING'},
+      {dept:'Engineering',task:'Plinth Completion (Phase 1)',date:'2026-09-30',status:'PENDING'},
+      {dept:'Sales',task:'Token (Phase 2)',date:'2026-06-01',status:'PENDING'},
+      {dept:'Sales',task:'Launch (Phase 2)',date:'2026-06-19',status:'PENDING'},
+      {dept:'Engineering',task:'Work Commencement (Phase 2)',date:'2026-05-01',status:'PENDING'},
+      {dept:'Engineering',task:'Plinth Completion (Phase 2)',date:'2026-06-30',status:'PENDING'},
+    ]
+  },
+  {
+    id:'mithila2', name:'Mithila-2',
+    sales:{plotSize:124,avgSaleable:1100,bsp:4800,unitCost:5280000,totalUnits:252,projectQuantum:133,totalSaleable:277200,saleAreaForSale:245200,unitsFY27:200,revFY27:106,projectRevenue:118},
+    activities:[
+      {dept:'Legal',task:'PA/DA',date:'2026-03-30',status:'DONE'},
+      {dept:'Liaisoning',task:'Mojani',date:'2026-03-30',status:'DONE'},
+      {dept:'D&D',task:'Concept Plan',date:'2026-04-15',status:'PENDING'},
+      {dept:'D&D',task:'EC Submission',date:'2026-04-30',status:'PENDING'},
+      {dept:'Liaisoning',task:'IOD',date:'2026-05-30',status:'PENDING'},
+      {dept:'Liaisoning',task:'Basic Sanction',date:'2026-06-30',status:'PENDING'},
+      {dept:'RERA',task:'RERA',date:'2026-07-30',status:'PENDING'},
+      {dept:'Engineering',task:'Sales Office Start',date:'',status:'NIL'},
+      {dept:'Engineering',task:'Sales Office End',date:'',status:'NIL'},
+      {dept:'D&D',task:'EC Receive',date:'2026-07-30',status:'PENDING'},
+      {dept:'Sales',task:'Token (Phase 1)',date:'2026-05-01',status:'PENDING'},
+      {dept:'Sales',task:'Launch (Phase 1)',date:'2026-07-19',status:'PENDING'},
+      {dept:'Engineering',task:'Work Commencement (Phase 1)',date:'2026-07-01',status:'PENDING'},
+      {dept:'Engineering',task:'Plinth Completion (Phase 1)',date:'2026-09-30',status:'PENDING'},
+      {dept:'Sales',task:'Token (Phase 2)',date:'2026-08-01',status:'PENDING'},
+      {dept:'Sales',task:'Launch (Phase 2)',date:'2026-10-04',status:'PENDING'},
+      {dept:'Engineering',task:'Work Commencement (Phase 2)',date:'2026-08-01',status:'PENDING'},
+      {dept:'Engineering',task:'Plinth Completion (Phase 2)',date:'2026-09-30',status:'PENDING'},
+    ]
+  },
+  {
+    id:'momento', name:'Momento',
+    sales:{plotSize:248,avgSaleable:1200,bsp:5200,unitCost:6240000,totalUnits:616,projectQuantum:384,totalSaleable:775800,saleAreaForSale:701000,unitsFY27:300,revFY27:187,projectRevenue:365},
+    activities:[
+      {dept:'Legal',task:'PA/DA',date:'2026-03-30',status:'DONE'},
+      {dept:'Liaisoning',task:'Mojani',date:'2026-03-30',status:'DONE'},
+      {dept:'D&D',task:'Concept Plan',date:'2026-03-30',status:'DONE'},
+      {dept:'D&D',task:'EC Submission',date:'2026-03-30',status:'DONE'},
+      {dept:'Liaisoning',task:'IOD',date:'2026-04-15',status:'DONE'},
+      {dept:'Liaisoning',task:'Basic Sanction',date:'2026-04-15',status:'DONE'},
+      {dept:'RERA',task:'RERA',date:'2026-05-15',status:'PENDING'},
+      {dept:'Engineering',task:'Sales Office Start',date:'2026-03-30',status:'WIP'},
+      {dept:'Engineering',task:'Sales Office End',date:'2026-04-15',status:'PENDING'},
+      {dept:'D&D',task:'EC Receive',date:'2026-07-15',status:'PENDING'},
+      {dept:'Sales',task:'Token (Phase 1)',date:'2026-05-01',status:'PENDING'},
+      {dept:'Sales',task:'Launch (Phase 1)',date:'2026-07-12',status:'PENDING'},
+      {dept:'Engineering',task:'Work Commencement (Phase 1)',date:'2026-04-01',status:'DONE'},
+      {dept:'Engineering',task:'Plinth Completion (Phase 1)',date:'2026-05-30',status:'PENDING'},
+      {dept:'Sales',task:'Token (Phase 2)',date:'2026-06-01',status:'PENDING'},
+      {dept:'Sales',task:'Launch (Phase 2)',date:'2026-08-30',status:'PENDING'},
+      {dept:'Engineering',task:'Work Commencement (Phase 2)',date:'2026-07-01',status:'PENDING'},
+      {dept:'Engineering',task:'Plinth Completion (Phase 2)',date:'2026-09-30',status:'PENDING'},
+    ]
+  },
+  {
+    id:'starviewbr', name:'Starview BR',
+    sales:{plotSize:120,avgSaleable:1200,bsp:5800,unitCost:6960000,totalUnits:1100,projectQuantum:766,totalSaleable:1246000,saleAreaForSale:934000,unitsFY27:400,revFY27:278,projectRevenue:542},
+    activities:[
+      {dept:'Legal',task:'PA/DA',date:'2026-03-30',status:'DONE'},
+      {dept:'Liaisoning',task:'Mojani',date:'2026-03-30',status:'DONE'},
+      {dept:'D&D',task:'Concept Plan',date:'2026-03-30',status:'DONE'},
+      {dept:'D&D',task:'EC Submission',date:'2026-03-30',status:'DONE'},
+      {dept:'Liaisoning',task:'IOD',date:'2026-03-30',status:'DONE'},
+      {dept:'Liaisoning',task:'Basic Sanction',date:'2026-03-30',status:'DONE'},
+      {dept:'RERA',task:'RERA',date:'2026-04-30',status:'PENDING'},
+      {dept:'Engineering',task:'Sales Office Start',date:'2026-03-30',status:'DONE'},
+      {dept:'Engineering',task:'Sales Office End',date:'2026-05-30',status:'PENDING'},
+      {dept:'D&D',task:'EC Receive',date:'2026-03-30',status:'DONE'},
+      {dept:'Sales',task:'Token (Phase 1)',date:'2026-07-01',status:'PENDING'},
+      {dept:'Sales',task:'Launch (Phase 1)',date:'2026-10-11',status:'PENDING'},
+      {dept:'Engineering',task:'Work Commencement (Phase 1)',date:'2026-08-01',status:'PENDING'},
+      {dept:'Engineering',task:'Plinth Completion (Phase 1)',date:'2026-09-30',status:'PENDING'},
+      {dept:'Sales',task:'Token (Phase 2)',date:'2026-06-01',status:'PENDING'},
+      {dept:'Sales',task:'Launch (Phase 2)',date:'2026-09-06',status:'PENDING'},
+      {dept:'Engineering',task:'Work Commencement (Phase 2)',date:'2026-04-01',status:'DONE'},
+      {dept:'Engineering',task:'Plinth Completion (Phase 2)',date:'2026-05-30',status:'PENDING'},
+    ]
+  },
+];
+
+let npProjects = JSON.parse(JSON.stringify(NP_PROJECTS_INIT));
+let npFilter = 'ALL';
+let npViewMode = 'table'; // 'table' or 'card'
+
+function npLoadData(){try{const s=localStorage.getItem('mlt_np_v1');if(s){npProjects=JSON.parse(s);}}catch(e){}}
+function npSaveData(){try{localStorage.setItem('mlt_np_v1',JSON.stringify(npProjects));}catch(e){}}
+
+const NP_DEPTS=['Legal','Liaisoning','D&D','Engineering','Sales','Finance','Marketing','Other'];
+const NP_STATUSES=['DONE','WIP','PENDING','DELAYED','NIL'];
+const NP_STATUS_COLORS={DONE:'b-green',WIP:'b-blue',PENDING:'b-gray',DELAYED:'b-red',NIL:'b-gray',ON_TRACK:'b-blue'};
+
+function npDaysChip(dateStr, status){
+  if(!dateStr||status==='NIL')return'<span style="font-size:10px;color:var(--text-muted)">—</span>';
+  if(status==='DONE')return'<span class="dc dc-done">Done</span>';
+  const d=daysFrom(dateStr);
+  if(d===null)return'—';
+  if(d<0)return`<span class="dc dc-over">${Math.abs(d)}d over</span>`;
+  if(d<=30)return`<span class="dc dc-soon">${d}d</span>`;
+  return`<span class="dc dc-ok">${d}d</span>`;
+}
+
+function npStatusBadge(s){
+  if(s==='DONE')return'<span class="badge b-green">✓ Done</span>';
+  if(s==='WIP')return'<span class="badge b-blue">In Progress</span>';
+  if(s==='DELAYED')return'<span class="badge b-red">🔴 Delayed</span>';
+  if(s==='NIL')return'<span class="badge b-gray">N/A</span>';
+  return'<span class="badge b-gray">Pending</span>';
+}
+
+function npProgress(proj){
+  const acts=proj.activities;
+  const done=acts.filter(a=>a.status==='DONE').length;
+  return Math.round(done/acts.length*100);
+}
+
+function npLaunchDate(proj){
+  const t=proj.activities.find(a=>a.task.startsWith('Token (Phase 1)'));
+  return t?.date||'';
+}
+
+function buildNewPlan(){
+  npLoadData();
+  const totalRev = npProjects.reduce((s,p)=>s+(p.sales.revFY27||0),0);
+  const totalUnits = npProjects.reduce((s,p)=>s+(p.sales.unitsFY27||0),0);
+  const totalProjRev = npProjects.reduce((s,p)=>s+(p.sales.projectRevenue||0),0);
+  const doneActs = npProjects.reduce((s,p)=>s+p.activities.filter(a=>a.status==='DONE').length,0);
+  const totalActs = npProjects.reduce((s,p)=>s+p.activities.length,0);
+
+  return`
+  <div style="background:var(--navy);color:#fff;border-radius:var(--r-lg);padding:20px 24px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-size:18px;font-weight:800;letter-spacing:-.3px">🚀 New Projects Plan 2026–27</div>
+      <div style="font-size:12px;opacity:.7;margin-top:3px">5 upcoming projects · Plan date: 03 May 2026 · Confidential</div>
+    </div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap">
+      <div style="text-align:center"><div style="font-size:22px;font-weight:800;color:var(--gold)">₹${totalRev} Cr</div><div style="font-size:10px;opacity:.7;letter-spacing:.8px;text-transform:uppercase">FY27 Revenue</div></div>
+      <div style="text-align:center"><div style="font-size:22px;font-weight:800">₹${totalProjRev} Cr</div><div style="font-size:10px;opacity:.7;letter-spacing:.8px;text-transform:uppercase">Project Revenue</div></div>
+      <div style="text-align:center"><div style="font-size:22px;font-weight:800">${totalUnits.toLocaleString('en-IN')}</div><div style="font-size:10px;opacity:.7;letter-spacing:.8px;text-transform:uppercase">Units FY27</div></div>
+      <div style="text-align:center"><div style="font-size:22px;font-weight:800;color:#6EE7B7">${doneActs}/${totalActs}</div><div style="font-size:10px;opacity:.7;letter-spacing:.8px;text-transform:uppercase">Activities Done</div></div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border-med);border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--border-med);margin-bottom:24px;box-shadow:var(--shadow-sm)">
+    ${npProjects.map(p=>{
+      const pr=npProgress(p);const ld=npLaunchDate(p);
+      return`<div style="background:var(--white);padding:16px 18px;cursor:pointer" onclick="npScrollTo('${p.id}')">
+        <div style="font-size:13px;font-weight:800;color:var(--navy);margin-bottom:6px">${p.name}</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px">₹${p.sales.revFY27} Cr FY27 · ${p.sales.unitsFY27} units</div>
+        <div style="height:4px;border-radius:2px;background:var(--off-white);overflow:hidden;margin-bottom:4px"><div style="height:100%;width:${pr}%;background:var(--navy);border-radius:2px"></div></div>
+        <div style="font-size:10px;color:var(--text-muted)">${pr}% activities done${ld?` · Token ${fmt(ld)}`:''}</div>
+      </div>`;
+    }).join('')}
+  </div>
+
+  ${npProjects.map(p=>buildNpProjectBlock(p)).join('')}`;
+}
+
+function buildNpProjectBlock(p){
+  const pr=npProgress(p);
+  const depts=['Legal','Liaisoning','D&D','Engineering','Sales'];
+  const deptColors={'Legal':'var(--navy)','Liaisoning':'var(--teal)','D&D':'var(--amber)','Engineering':'#7C3AED','Sales':'var(--red)','Finance':'#059669','Marketing':'#DB2777','Other':'var(--text-muted)'};
+
+  // Group by dept for summary row
+  const deptSummary=depts.map(d=>{
+    const acts=p.activities.filter(a=>a.dept===d);
+    const done=acts.filter(a=>a.status==='DONE').length;
+    return{d,total:acts.length,done};
+  }).filter(x=>x.total>0);
+
+  const launchP1=p.activities.find(a=>a.task==='Launch (Phase 1)');
+  const launchP2=p.activities.find(a=>a.task==='Launch (Phase 2)');
+
+  return`<div class="table-card" id="np_${p.id}" style="margin-bottom:20px">
+    <div class="table-card-head" style="border-top:3px solid var(--navy)">
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <div>
+          <span style="font-size:15px;font-weight:800;color:var(--charcoal)">${p.name}</span>
+          <span style="font-size:11px;color:var(--text-muted);margin-left:10px">Plot: ${p.sales.plotSize}×30 | BSP: ₹${p.sales.bsp.toLocaleString('en-IN')} | ${p.sales.totalUnits} units total | ${p.sales.unitsFY27} units FY27</span>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:11px">
+          ${launchP1?.date?`<span style="background:var(--gold-l);color:var(--gold);padding:2px 9px;border-radius:8px;font-weight:700">🚀 P1 Launch: ${fmt(launchP1.date)}</span>`:''}
+          ${launchP2?.date?`<span style="background:var(--navy-l);color:var(--navy);padding:2px 9px;border-radius:8px;font-weight:700">🚀 P2 Launch: ${fmt(launchP2.date)}</span>`:''}
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px">
+        <div style="text-align:right">
+          <div style="font-size:18px;font-weight:800;color:var(--navy)">₹${p.sales.revFY27} Cr</div>
+          <div style="font-size:10px;color:var(--text-muted)">FY27 Revenue Target</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="width:80px;height:5px;border-radius:3px;background:var(--off-white);overflow:hidden;border:1px solid var(--border)"><div style="height:100%;width:${pr}%;background:var(--navy);border-radius:3px"></div></div>
+          <span style="font-size:11px;font-weight:700;color:var(--navy)">${pr}%</span>
+        </div>
+        <button class="action-btn action-btn-primary" onclick="openNpActivity('${p.id}',null)">+ Add Activity</button>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:1px;background:var(--border-med);border-bottom:1px solid var(--border-med)">
+      ${deptSummary.map(x=>`<div style="flex:1;background:var(--off-white);padding:8px 12px;text-align:center">
+        <div style="font-size:12px;font-weight:700;color:${deptColors[x.d]||'var(--text-muted)'}">${x.d}</div>
+        <div style="font-size:10px;color:var(--text-muted);margin-top:1px">${x.done}/${x.total} done</div>
+      </div>`).join('')}
+    </div>
+
+    <div style="overflow-x:auto">
+    <table class="tbl">
+      <thead><tr>
+        <th style="width:100px">Dept</th>
+        <th>Activity / Task</th>
+        <th style="width:140px">Planned Date</th>
+        <th style="width:110px">Status</th>
+        <th style="width:90px">Days</th>
+        <th style="width:80px">Action</th>
+      </tr></thead>
+      <tbody>
+        ${p.activities.map((act,idx)=>{
+          const dc=npDaysChip(act.date,act.status);
+          const isKey=(act.task.includes('Launch')||act.task.includes('Token')||act.task.includes('RERA')||act.task.includes('Basic Sanction'));
+          return`<tr ${isKey?'class="key-row"':''}>
+            <td><span style="font-size:10px;font-weight:700;color:${deptColors[act.dept]||'var(--text-muted)'}">${act.dept}</span></td>
+            <td style="font-weight:${isKey?700:400}">${isKey?'⭐ ':''}${act.task}</td>
+            <td><input type="date" class="date-inp" value="${act.date||''}" onchange="npUpdateDate('${p.id}',${idx},this.value)" oninput="this.classList.add('changed')" style="width:130px"/></td>
+            <td><select class="status-sel" onchange="npUpdateStatus('${p.id}',${idx},this.value)" style="min-width:95px">
+              ${NP_STATUSES.map(sv=>`<option value="${sv}" ${act.status===sv?'selected':''}>${sv}</option>`).join('')}
+            </select></td>
+            <td>${dc}</td>
+            <td style="text-align:center">
+              <button onclick="openNpActivity('${p.id}',${idx})" style="font-size:10px;padding:3px 8px;border:1px solid var(--border-med);border-radius:4px;cursor:pointer;background:transparent;color:var(--text-muted)">Edit</button>
+              <button onclick="npDeleteActivity('${p.id}',${idx})" style="font-size:10px;padding:3px 8px;border:1px solid rgba(232,49,49,.2);border-radius:4px;cursor:pointer;background:var(--red-light);color:var(--red-dark);margin-top:3px">Del</button>
+            </td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+    </div>
+
+    <div style="padding:12px 18px;border-top:1px solid var(--border);background:var(--off-white);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+      <div style="font-size:11px;color:var(--text-muted)">
+        Sales Params: BSP ₹${p.sales.bsp.toLocaleString('en-IN')}/sqft · Avg Saleable ${p.sales.avgSaleable} sqft · Unit Cost ₹${(p.sales.unitCost/100000).toFixed(1)}L · Total Saleable ${(p.sales.totalSaleable/1000).toFixed(0)}K sqft
+      </div>
+      <button class="action-btn" onclick="openNpSalesEdit('${p.id}')">✏ Edit Sales Params</button>
+    </div>
+  </div>`;
+}
+
+function npScrollTo(id){
+  const el=document.getElementById('np_'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
+
+function npUpdateDate(pid,idx,val){
+  const p=npProjects.find(x=>x.id===pid);if(!p)return;
+  p.activities[idx].date=val;
+  npSaveData();
+  // Re-render just the chips in the table without full re-render
+  const content=document.getElementById('tabContent');
+  if(activeTab==='newplan')content.innerHTML=buildNewPlan();
+}
+function npUpdateStatus(pid,idx,val){
+  const p=npProjects.find(x=>x.id===pid);if(!p)return;
+  p.activities[idx].status=val;
+  npSaveData();
+  const content=document.getElementById('tabContent');
+  if(activeTab==='newplan')content.innerHTML=buildNewPlan();
+}
+function npDeleteActivity(pid,idx){
+  if(!confirm('Delete this activity?'))return;
+  const p=npProjects.find(x=>x.id===pid);if(!p)return;
+  p.activities.splice(idx,1);
+  npSaveData();
+  const content=document.getElementById('tabContent');
+  if(activeTab==='newplan')content.innerHTML=buildNewPlan();
+}
+
+function openNpActivity(pid,idx){
+  const p=npProjects.find(x=>x.id===pid);if(!p)return;
+  const isNew=(idx===null);
+  const act=isNew?{dept:'Sales',task:'',date:'',status:'PENDING'}:{...p.activities[idx]};
+  document.getElementById('modalContent').innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+      <h2>${isNew?'Add Activity':'Edit Activity'} — ${p.name}</h2>
+      <button class="btn-cancel-m" onclick="closeModal()" style="padding:4px 10px">✕</button>
+    </div>
+    <div class="form-row-2">
+      <div class="form-row">
+        <label class="form-lbl">Department</label>
+        <select class="form-inp" id="np_dept">
+          ${NP_DEPTS.map(d=>`<option ${act.dept===d?'selected':''}>${d}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-row">
+        <label class="form-lbl">Status</label>
+        <select class="form-inp" id="np_status">
+          ${NP_STATUSES.map(s=>`<option ${act.status===s?'selected':''}>${s}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <label class="form-lbl">Activity / Task Name</label>
+      <input class="form-inp" id="np_task" value="${act.task}" placeholder="e.g. RERA Registration, Concept Plan Approval..."/>
+    </div>
+    <div class="form-row">
+      <label class="form-lbl">Planned Date</label>
+      <input class="form-inp" type="date" id="np_date" value="${act.date||''}"/>
+    </div>
+    <div class="modal-btns">
+      ${!isNew?`<button class="btn-danger" onclick="npDeleteActivity('${pid}',${idx});closeModal()">Delete</button>`:''}
+      <button class="btn-cancel-m" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="npSaveActivity('${pid}',${isNew?'null':idx})">${isNew?'Add Activity':'Save Changes'}</button>
+    </div>`;
+  document.getElementById('modalBg').classList.add('open');
+}
+
+function npSaveActivity(pid,idx){
+  const p=npProjects.find(x=>x.id===pid);if(!p)return;
+  const act={
+    dept:document.getElementById('np_dept').value,
+    task:document.getElementById('np_task').value,
+    date:document.getElementById('np_date').value,
+    status:document.getElementById('np_status').value
+  };
+  if(!act.task.trim()){alert('Please enter a task name.');return;}
+  if(idx===null||idx==='null'){p.activities.push(act);}else{p.activities[parseInt(idx)]=act;}
+  closeModal();npSaveData();
+  const content=document.getElementById('tabContent');
+  if(activeTab==='newplan')content.innerHTML=buildNewPlan();
+}
+
+function openNpSalesEdit(pid){
+  const p=npProjects.find(x=>x.id===pid);if(!p)return;
+  const s=p.sales;
+  document.getElementById('modalContent').innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+      <h2>Edit Sales Params — ${p.name}</h2>
+      <button class="btn-cancel-m" onclick="closeModal()" style="padding:4px 10px">✕</button>
+    </div>
+    <div class="form-row-2">
+      <div class="form-row"><label class="form-lbl">Plot Size (ft)</label><input class="form-inp" type="number" id="nps_plot" value="${s.plotSize}"/></div>
+      <div class="form-row"><label class="form-lbl">Avg Saleable (sqft)</label><input class="form-inp" type="number" id="nps_avg" value="${s.avgSaleable}"/></div>
+    </div>
+    <div class="form-row-2">
+      <div class="form-row"><label class="form-lbl">BSP (₹/sqft)</label><input class="form-inp" type="number" id="nps_bsp" value="${s.bsp}"/></div>
+      <div class="form-row"><label class="form-lbl">Total Units</label><input class="form-inp" type="number" id="nps_units" value="${s.totalUnits}"/></div>
+    </div>
+    <div class="form-row-2">
+      <div class="form-row"><label class="form-lbl">Units Target FY27</label><input class="form-inp" type="number" id="nps_fy27u" value="${s.unitsFY27}"/></div>
+      <div class="form-row"><label class="form-lbl">Revenue FY27 (₹ Cr)</label><input class="form-inp" type="number" id="nps_fy27r" value="${s.revFY27}"/></div>
+    </div>
+    <div class="form-row">
+      <label class="form-lbl">Project Revenue (₹ Cr)</label><input class="form-inp" type="number" id="nps_projr" value="${s.projectRevenue}"/>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancel-m" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="npSaveSales('${pid}')">Save</button>
+    </div>`;
+  document.getElementById('modalBg').classList.add('open');
+}
+
+function npSaveSales(pid){
+  const p=npProjects.find(x=>x.id===pid);if(!p)return;
+  p.sales.plotSize=parseInt(document.getElementById('nps_plot').value)||0;
+  p.sales.avgSaleable=parseInt(document.getElementById('nps_avg').value)||0;
+  p.sales.bsp=parseInt(document.getElementById('nps_bsp').value)||0;
+  p.sales.totalUnits=parseInt(document.getElementById('nps_units').value)||0;
+  p.sales.unitsFY27=parseInt(document.getElementById('nps_fy27u').value)||0;
+  p.sales.revFY27=parseFloat(document.getElementById('nps_fy27r').value)||0;
+  p.sales.projectRevenue=parseFloat(document.getElementById('nps_projr').value)||0;
+  closeModal();npSaveData();
+  const content=document.getElementById('tabContent');
+  if(activeTab==='newplan')content.innerHTML=buildNewPlan();
+}
+
+// ══════════════════════════════════════════════════════
+//  MILESTONE DATA & INIT PROJECTS
 const MS=['Land Finalised','Feasibility Approved (SSS)','Architect Appointed','Concept Design Approved','Layout Approval Filed','Environment Clearance (EC)','Sanction / IOD Received','RERA Registration','Construction Finance Arranged','GFC Issued (SSS Signed)','Excavation / Work Start','Show Flat / Sample Flat Ready','Soft Launch / Broker Preview','Official Launch Date','Structure Complete','Finishing Work Start','OC / CC Applied','OC / CC Received','Possession Start'];
 const KEY_MS=['Environment Clearance (EC)','Sanction / IOD Received','RERA Registration','Official Launch Date','OC / CC Received','Possession Start'];
 const S={DONE:'DONE',OT:'ON TRACK',WATCH:'WATCH',RISK:'AT RISK',PENDING:'PENDING'};
@@ -373,7 +790,7 @@ let projects=JSON.parse(JSON.stringify(INIT_PROJECTS));
 let activeTab='dashboard', filterType='ALL', lastSaved='—';
 function loadData(){try{const s=localStorage.getItem('mlt_v3');if(s){projects=JSON.parse(s);lastSaved=localStorage.getItem('mlt_saved')||'—';}}catch(e){}}
 function saveData(){try{localStorage.setItem('mlt_v3',JSON.stringify(projects));lastSaved=new Date().toLocaleString('en-IN');localStorage.setItem('mlt_saved',lastSaved);const el=document.getElementById('lastSavedFooter');if(el)el.textContent=lastSaved;}catch(e){}}
-async function initData(){loadData();render();await loadFromSheet();}
+async function initData(){loadData();npLoadData();render();await loadFromSheet();}
 
 // ══════════════════════════════════════════════════════
 //  COMPUTED
@@ -407,6 +824,7 @@ function render(){
   else if(activeTab==='tracker')content.innerHTML=buildTracker();
   else if(activeTab==='timeline')content.innerHTML=buildTimeline();
   else if(activeTab==='summary')content.innerHTML=buildSummary();
+  else if(activeTab==='newplan')content.innerHTML=buildNewPlan();
   renderBanner();
   const lastEl=document.getElementById('lastSavedFooter');if(lastEl)lastEl.textContent=lastSaved;
   document.getElementById('modalBg').addEventListener('click',e=>{if(e.target.id==='modalBg')closeModal();});
